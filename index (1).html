@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nayoung Kim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1e1e2f;
+      --white: #ffffff;
+      --purple: #7c5cfc;
+      --purple-light: #a78bfa;
+      --purple-glow: rgba(124, 92, 252, 0.12);
+      --muted: #7b7b8e;
+      --border: #e8e6f0;
+      --card: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      color: var(--ink);
+      line-height: 1.7;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f8f5ff 20%,
+        #f0eaff 40%,
+        #ece5ff 55%,
+        #f0eaff 70%,
+        #f8f5ff 85%,
+        #ffffff 100%
+      );
+      background-attachment: fixed;
+    }
+
+    /* grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; width: 100%;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--purple);
+      text-decoration: none;
+    }
+    nav .links { display: flex; gap: 1.8rem; }
+    nav .links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    nav .links a:hover { color: var(--purple); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      max-width: 920px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-orb {
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.12) 0%, rgba(124,92,252,0) 70%);
+      top: 15%; right: -80px;
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.03); }
+    }
+    .hero .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .hero .eyebrow::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--purple);
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 5.5vw, 4rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.85;
+      font-weight: 300;
+    }
+    .hero .cta-row {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .hero .cta-row a {
+      padding: 0.7rem 1.6rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+      border: 2px solid var(--purple);
+      box-shadow: 0 4px 20px rgba(124, 92, 252, 0.25);
+    }
+    .btn-primary:hover {
+      background: #6a4ae0;
+      border-color: #6a4ae0;
+      box-shadow: 0 6px 28px rgba(124, 92, 252, 0.35);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.6);
+      color: var(--ink);
+      border: 2px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--purple); color: var(--purple); }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 3rem;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 0.75rem;
+    }
+    section h2 {
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+    .divider {
+      width: 40px; height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-light));
+      border-radius: 2px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .about-text {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 170px; top: 2.4rem;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--purple);
+      box-shadow: 0 0 0 4px var(--purple-glow);
+    }
+    .timeline-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding-top: 0.2rem;
+    }
+    .timeline-content { padding-left: 1rem; }
+    .timeline-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .timeline-content .org { font-size: 0.82rem; color: var(--purple); font-weight: 500; margin-bottom: 0.5rem; }
+    .timeline-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.75; font-weight: 300; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-light));
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(124, 92, 252, 0.08);
+      border-color: rgba(124, 92, 252, 0.2);
+    }
+    .project-card:hover::after { opacity: 1; }
+    .project-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple);
+      background: var(--purple-glow);
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+    .project-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .project-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.75; font-weight: 300; }
+    .project-tech {
+      margin-top: 1rem;
+      display: flex; flex-wrap: wrap; gap: 0.35rem;
+    }
+    .project-tech span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.64rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+    }
+
+    /* ── SKILLS ── */
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .skill-group h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .skill-group h3::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      background: var(--purple);
+    }
+    .skill-group ul { list-style: none; }
+    .skill-group li { font-size: 0.85rem; color: var(--muted); padding: 0.35rem 0; font-weight: 300; }
+
+    /* ── ART*TECH SECTION ── */
+    .arttech-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .arttech-header h2 {
+      font-size: 2.2rem;
+    }
+    .arttech-header .divider {
+      margin: 1rem auto 1.5rem;
+    }
+    .arttech-header .section-sub {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .week-card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.35s ease;
+    }
+    .week-card:hover {
+      box-shadow: 0 12px 40px rgba(124, 92, 252, 0.06);
+      border-color: rgba(124, 92, 252, 0.15);
+    }
+    .week-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .week-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      padding: 0.35rem 0.8rem;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .week-card-header h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .week-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .week-description {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+    .week-media {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #f3f0fa;
+    }
+    .week-media img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+    .week-media iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      display: block;
+      border-radius: 10px;
+    }
+    .week-media-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-light);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+    .week-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .week-tags span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--purple);
+      border: 1px solid rgba(124, 92, 252, 0.2);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+    }
+    .week-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--purple);
+      text-decoration: none;
+      margin-top: 0.75rem;
+      transition: opacity 0.3s;
+    }
+    .week-link:hover { opacity: 0.7; }
+    .week-link svg {
+      width: 14px; height: 14px;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      text-align: center;
+      padding: 6rem 3rem 8rem;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .contact-orb {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,92,252,0.06) 0%, rgba(124,92,252,0) 70%);
+      top: 20%; left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .contact-section p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .contact-links a {
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--purple);
+      padding: 0.6rem 1.4rem;
+      border: 2px solid rgba(124, 92, 252, 0.25);
+      border-radius: 100px;
+      transition: all 0.3s;
+    }
+    .contact-links a:hover {
+      background: var(--purple);
+      color: #fff;
+      border-color: var(--purple);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav .links { gap: 1rem; }
+      nav .links a { font-size: 0.7rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .timeline-item::before { display: none; }
+      .timeline-content { padding-left: 0; }
+      .week-card { padding: 1.5rem; }
+      .week-card-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .contact-section { padding: 4rem 1.5rem 6rem; }
+    }
+    @media (max-width: 480px) {
+      nav .links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">nayoung.kim</a>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#arttech">Art*Tech</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-orb"></div>
+    <div class="eyebrow">Researcher · Developer · Designer</div>
+    <h1>Designing futures at the edge of <span>human + machine.</span></h1>
+    <p>
+      MPS Information Science at Cornell. Graduate Research Assistant at the Virtual Embodiment Lab.
+      Exploring how XR, AI, and speculative design can reshape the way we learn and connect.
+    </p>
+    <div class="cta-row">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="fade-in">
+      <div class="section-label">About</div>
+      <h2>A bit about me</h2>
+      <div class="divider"></div>
+      <div class="about-grid">
+        <p class="about-text">
+          I'm a researcher and developer working across XR, AI, and human-centered design.
+          Before Cornell, I worked at LG CNS and Samsung SDI in Seoul, and at FIT:MATCH in the US —
+          building experience across product development, data systems, and user-facing technologies.
+        </p>
+        <p class="about-text">
+          My work asks how emerging technologies can be designed more intentionally —
+          not just to function, but to foster agency, transparency, and meaningful interaction.
+          I plan to pursue a PhD to deepen this line of inquiry.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="fade-in">
+      <div class="section-label">Experience</div>
+      <h2>Where I've worked</h2>
+      <div class="divider"></div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2025 – Present</div>
+          <div class="timeline-content">
+            <h3>Graduate Research Assistant</h3>
+            <div class="org">Virtual Embodiment Lab · Cornell</div>
+            <p>Research in XR, 3D scanning pipelines, and mixed reality museum experiences. Working on physical-to-digital interaction design and multi-user collaboration systems.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">Previous</div>
+          <div class="timeline-content">
+            <h3>Software Engineer / Developer</h3>
+            <div class="org">LG CNS · Samsung SDI · FIT:MATCH</div>
+            <p>Industry experience across enterprise systems, product development, and data-driven applications in both Seoul and the US.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="fade-in">
+      <div class="section-label">Projects</div>
+      <h2>Selected work</h2>
+      <p class="section-sub">Research, prototypes, and things I've built along the way.</p>
+      <div class="divider"></div>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-tag">AI + Education</div>
+          <h3>RAG-Based AI Chatbot</h3>
+          <p>A closed-domain AI chatbot for educational settings, using retrieval-augmented generation for accurate, context-aware responses.</p>
+          <div class="project-tech"><span>Python</span><span>RAG</span><span>NLP</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-tag">XR + Mixed Reality</div>
+          <h3>Valley of Ashes</h3>
+          <p>A mixed reality museum where physical artifacts trigger digital overlays and immersive VR environments.</p>
+          <div class="project-tech"><span>Unity</span><span>C#</span><span>Blender</span><span>RealityCapture</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-tag">Speculative Design</div>
+          <h3>Human-AI Collaboration</h3>
+          <p>Google Capstone exploring hybrid human-AI models in customer support — focusing on trust, transparency, and role clarity.</p>
+          <div class="project-tech"><span>UX Research</span><span>Prototyping</span><span>Figma</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-tag">Game + AI</div>
+          <h3>Unity AI Connector</h3>
+          <p>AI chatbot API integration in a Unity game, where themed game objects drive differentiated AI behaviors.</p>
+          <div class="project-tech"><span>Unity</span><span>C#</span><span>API</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-tag">ICTD</div>
+          <h3>Bilingual IVR System</h3>
+          <p>An interactive voice response system for maternal health education in Ethiopia, built through participatory design.</p>
+          <div class="project-tech"><span>IVR</span><span>UX Research</span><span>Wizard-of-Oz</span></div>
+        </div>
+        <div class="project-card">
+          <div class="project-tag">Data + Visualization</div>
+          <h3>Security Access Dashboard</h3>
+          <p>Interactive Tableau dashboard for Cornell IT, featuring KPI tiles, filter actions, and multi-view analytics.</p>
+          <div class="project-tech"><span>Tableau</span><span>Data Viz</span><span>SQL</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="fade-in">
+      <div class="section-label">Skills</div>
+      <h2>What I work with</h2>
+      <div class="divider"></div>
+      <div class="skills-container">
+        <div class="skill-group">
+          <h3>Languages</h3>
+          <ul><li>Python</li><li>C#</li><li>JavaScript</li><li>SQL</li><li>HTML / CSS</li></ul>
+        </div>
+        <div class="skill-group">
+          <h3>Tools & Platforms</h3>
+          <ul><li>Unity</li><li>Blender</li><li>Tableau</li><li>Arduino</li><li>Selenium</li></ul>
+        </div>
+        <div class="skill-group">
+          <h3>Research & Design</h3>
+          <ul><li>UX Research</li><li>Prototyping</li><li>Speculative Design</li><li>Data Analysis</li><li>3D Scanning</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════ -->
+  <!-- ART*TECH SECTION -->
+  <!-- ════════════════════════════════════ -->
+  <section id="arttech">
+    <div class="fade-in">
+      <div class="arttech-header">
+        <div class="section-label">Art*Tech</div>
+        <h2>Weekly Projects</h2>
+        <div class="divider"></div>
+        <p class="section-sub">
+          A semester-long documentation of projects from Art*Tech — exploring creative intersections of art, technology, and interaction.
+        </p>
+      </div>
+
+      <!-- ─── WEEK 1 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 1</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">January 2026</div>
+        <p class="week-description">
+          Brief description of the project — what was the prompt, what did you explore, and what did you make.
+        </p>
+        <!-- IMAGE example: replace src with your image path -->
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+          <!-- <img src="images/week1.jpg" alt="Week 1 project"> -->
+        </div>
+        <div class="week-tags">
+          <span>Arduino</span><span>Sculpture</span>
+        </div>
+      </div>
+
+      <!-- ─── WEEK 2 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 2</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">January 2026</div>
+        <p class="week-description">
+          Brief description of the project.
+        </p>
+        <!-- VIDEO example: replace with your YouTube/Vimeo embed URL -->
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+          <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+        </div>
+        <div class="week-tags">
+          <span>Processing</span><span>Generative</span>
+        </div>
+      </div>
+
+      <!-- ─── WEEK 3 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 3</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">February 2026</div>
+        <p class="week-description">
+          Brief description of the project.
+        </p>
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        </div>
+        <!-- LINK example: add a link to an external URL -->
+        <!-- <a href="https://your-project-url.com" target="_blank" class="week-link">
+          View Live Demo
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+        </a> -->
+        <div class="week-tags">
+          <span>Web</span><span>Interactive</span>
+        </div>
+      </div>
+
+      <!-- ─── WEEK 4 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 4</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">February 2026</div>
+        <p class="week-description">
+          Brief description of the project.
+        </p>
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        </div>
+        <div class="week-tags">
+          <span>Tag</span><span>Tag</span>
+        </div>
+      </div>
+
+      <!-- ─── WEEK 5 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 5</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">February 2026</div>
+        <p class="week-description">
+          Brief description of the project.
+        </p>
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        </div>
+        <div class="week-tags">
+          <span>Tag</span><span>Tag</span>
+        </div>
+      </div>
+
+      <!-- ─── WEEK 6 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 6</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">March 2026</div>
+        <p class="week-description">
+          Brief description of the project.
+        </p>
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        </div>
+        <div class="week-tags">
+          <span>Tag</span><span>Tag</span>
+        </div>
+      </div>
+
+      <!-- ─── WEEK 7 ─── -->
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-number">Week 7</span>
+          <h3>Project Title Here</h3>
+        </div>
+        <div class="week-date">March 2026</div>
+        <p class="week-description">
+          Brief description of the project.
+        </p>
+        <div class="week-media">
+          <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        </div>
+        <div class="week-tags">
+          <span>Tag</span><span>Tag</span>
+        </div>
+      </div>
+
+      <!--
+        ═══ HOW TO ADD MORE WEEKS ═══
+        Copy a week-card block above and change:
+        1. The week number in <span class="week-number">
+        2. The project title in <h3>
+        3. The date
+        4. The description
+        5. The media — use one of these:
+
+        FOR AN IMAGE:
+        <div class="week-media">
+          <img src="images/week8.jpg" alt="Week 8 project">
+        </div>
+
+        FOR A VIDEO (YouTube):
+        <div class="week-media">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+        </div>
+
+        FOR A VIDEO (Vimeo):
+        <div class="week-media">
+          <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" allowfullscreen></iframe>
+        </div>
+
+        FOR AN EXTERNAL LINK:
+        <a href="https://your-url.com" target="_blank" class="week-link">
+          View Project
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+        </a>
+
+        6. Update the tags
+      -->
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="contact-orb"></div>
+    <div class="fade-in">
+      <div class="section-label">Contact</div>
+      <h2>Let's connect</h2>
+      <div class="divider" style="margin: 1rem auto 2rem;"></div>
+      <p>Open to conversations about research collaboration, emerging tech, or new opportunities.</p>
+      <div class="contact-links">
+        <a href="mailto:your-email@cornell.edu">Email</a>
+        <a href="https://linkedin.com/in/your-linkedin" target="_blank">LinkedIn</a>
+        <a href="https://github.com/kimnaxoung" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Nayoung Kim</footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
