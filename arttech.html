@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art*Tech — Nayoung Kim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1e1e2f;
+      --white: #ffffff;
+      --purple: #7c5cfc;
+      --purple-light: #a78bfa;
+      --purple-glow: rgba(124, 92, 252, 0.12);
+      --muted: #7b7b8e;
+      --border: #e8e6f0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Sora', sans-serif;
+      color: var(--ink);
+      line-height: 1.7;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(180deg, #ffffff 0%, #f8f5ff 20%, #f0eaff 40%, #ece5ff 55%, #f0eaff 70%, #f8f5ff 85%, #ffffff 100%);
+      background-attachment: fixed;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; width: 100%;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--purple);
+      text-decoration: none;
+    }
+    nav .back-link {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    nav .back-link:hover { color: var(--purple); }
+    nav .back-link svg { width: 14px; height: 14px; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 10rem 3rem 4rem;
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .page-header .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 0.75rem;
+    }
+    .page-header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      letter-spacing: -0.03em;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 span {
+      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .page-header p {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.85;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+    .divider-center {
+      width: 40px; height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--purple-light));
+      border-radius: 2px;
+      margin: 1.5rem auto 0;
+    }
+
+    /* ── WEEKS CONTAINER ── */
+    .weeks-container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 3rem 6rem;
+    }
+
+    /* ── WEEK CARD ── */
+    .week-card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.35s ease;
+    }
+    .week-card:hover {
+      box-shadow: 0 12px 40px rgba(124, 92, 252, 0.06);
+      border-color: rgba(124, 92, 252, 0.15);
+    }
+    .week-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .week-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      padding: 0.35rem 0.8rem;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+    .week-card-header h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    .week-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .week-description {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── MEDIA ── */
+    .week-media {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #f3f0fa;
+    }
+    .week-media img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+    .week-media iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      display: block;
+      border-radius: 10px;
+    }
+    .week-media-placeholder {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-light);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── TAGS & LINKS ── */
+    .week-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .week-tags span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--purple);
+      border: 1px solid rgba(124, 92, 252, 0.2);
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+    }
+    .week-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--purple);
+      text-decoration: none;
+      margin-top: 0.75rem;
+      transition: opacity 0.3s;
+    }
+    .week-link:hover { opacity: 0.7; }
+    .week-link svg { width: 14px; height: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-header { padding: 8rem 1.5rem 3rem; }
+      .weeks-container { padding: 2rem 1.5rem 4rem; }
+      .week-card { padding: 1.5rem; }
+      .week-card-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">nayoung.kim</a>
+    <a href="index.html" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+      Back to Portfolio
+    </a>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="section-label">Cornell · Spring 2026</div>
+    <h1>Art*<span>Tech</span></h1>
+    <p>
+      A semester-long documentation of weekly projects exploring creative intersections of art, technology, and interaction.
+    </p>
+    <div class="divider-center"></div>
+  </div>
+
+  <!-- WEEKS -->
+  <div class="weeks-container">
+
+    <!-- ─── WEEK 1 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 1</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">January 2026</div>
+      <p class="week-description">
+        Brief description of the project — what was the prompt, what did you explore, and what did you make.
+      </p>
+      <!-- IMAGE: replace src with your image path, e.g. images/week1.jpg -->
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        <!-- <img src="images/week1.jpg" alt="Week 1 project"> -->
+      </div>
+      <div class="week-tags">
+        <span>Arduino</span><span>Sculpture</span>
+      </div>
+    </div>
+
+    <!-- ─── WEEK 2 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 2</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">January 2026</div>
+      <p class="week-description">
+        Brief description of the project.
+      </p>
+      <!-- VIDEO: replace VIDEO_ID with your YouTube video ID -->
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+        <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+      </div>
+      <div class="week-tags">
+        <span>Processing</span><span>Generative</span>
+      </div>
+    </div>
+
+    <!-- ─── WEEK 3 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 3</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">February 2026</div>
+      <p class="week-description">
+        Brief description of the project.
+      </p>
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+      </div>
+      <!-- LINK example: uncomment and add your URL -->
+      <!--
+      <a href="https://your-project-url.com" target="_blank" class="week-link">
+        View Live Demo
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+      </a>
+      -->
+      <div class="week-tags">
+        <span>Web</span><span>Interactive</span>
+      </div>
+    </div>
+
+    <!-- ─── WEEK 4 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 4</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">February 2026</div>
+      <p class="week-description">
+        Brief description of the project.
+      </p>
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+      </div>
+      <div class="week-tags">
+        <span>Tag</span><span>Tag</span>
+      </div>
+    </div>
+
+    <!-- ─── WEEK 5 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 5</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">February 2026</div>
+      <p class="week-description">
+        Brief description of the project.
+      </p>
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+      </div>
+      <div class="week-tags">
+        <span>Tag</span><span>Tag</span>
+      </div>
+    </div>
+
+    <!-- ─── WEEK 6 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 6</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">March 2026</div>
+      <p class="week-description">
+        Brief description of the project.
+      </p>
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+      </div>
+      <div class="week-tags">
+        <span>Tag</span><span>Tag</span>
+      </div>
+    </div>
+
+    <!-- ─── WEEK 7 ─── -->
+    <div class="week-card fade-in">
+      <div class="week-card-header">
+        <span class="week-number">Week 7</span>
+        <h3>Project Title Here</h3>
+      </div>
+      <div class="week-date">March 2026</div>
+      <p class="week-description">
+        Brief description of the project.
+      </p>
+      <div class="week-media">
+        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+      </div>
+      <div class="week-tags">
+        <span>Tag</span><span>Tag</span>
+      </div>
+    </div>
+
+    <!--
+      ═══════════════════════════════════════
+      HOW TO ADD MORE WEEKS
+      ═══════════════════════════════════════
+
+      Copy any week-card block above and update:
+      1. Week number
+      2. Project title
+      3. Date
+      4. Description
+      5. Media (pick one):
+
+         FOR AN IMAGE:
+         <div class="week-media">
+           <img src="images/week8.jpg" alt="Week 8 project">
+         </div>
+
+         FOR A YOUTUBE VIDEO:
+         <div class="week-media">
+           <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+         </div>
+
+         FOR A VIMEO VIDEO:
+         <div class="week-media">
+           <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" allowfullscreen></iframe>
+         </div>
+
+         FOR AN EXTERNAL LINK:
+         <a href="https://your-url.com" target="_blank" class="week-link">
+           View Project
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+         </a>
+
+      6. Update the tags
+
+      TO UPLOAD IMAGES:
+      1. In your GitHub repo, click Add file > Create new file
+      2. Type: images/.gitkeep  (this creates the folder)
+      3. Commit, then navigate into the images folder
+      4. Upload your JPGs/PNGs there
+      5. Reference them as: images/week1.jpg
+    -->
+
+  </div>
+
+  <footer>&copy; 2026 Nayoung Kim</footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
