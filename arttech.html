@@ -29,12 +29,10 @@
     }
     body::before {
       content: '';
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; top: 0; left: 0;
       width: 100%; height: 100%;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
+      pointer-events: none; z-index: 1000;
     }
 
     /* ── NAV ── */
@@ -43,7 +41,7 @@
       padding: 1.25rem 3rem;
       display: flex; justify-content: space-between; align-items: center;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(255,255,255,0.75);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
@@ -57,9 +55,7 @@
     nav .back-link svg { width: 14px; height: 14px; }
 
     /* ── PAGE HEADER ── */
-    .page-header {
-      padding: 10rem 3rem 4rem; max-width: 920px; margin: 0 auto; text-align: center;
-    }
+    .page-header { padding: 10rem 3rem 4rem; max-width: 920px; margin: 0 auto; text-align: center; }
     .page-header .section-label {
       font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700;
       letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem;
@@ -73,7 +69,7 @@
     .divider-center { width: 40px; height: 3px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); border-radius: 2px; margin: 1.5rem auto 0; }
 
     /* ── WEEKS CONTAINER ── */
-    .weeks-container { max-width: 760px; margin: 0 auto; padding: 2rem 3rem 6rem; }
+    .weeks-container { max-width: 760px; margin: 0 auto; padding: 2rem 3rem 6rem; transition: max-width 0.5s ease; }
 
     /* ── WEEK CARD ── */
     .week-card {
@@ -83,195 +79,192 @@
       border-radius: 14px;
       overflow: hidden;
       margin-bottom: 1.5rem;
-      transition: all 0.35s ease;
+      transition: all 0.45s ease;
     }
     .week-card:hover {
-      box-shadow: 0 12px 40px rgba(124, 92, 252, 0.06);
-      border-color: rgba(124, 92, 252, 0.15);
+      box-shadow: 0 12px 40px rgba(124,92,252,0.06);
+      border-color: rgba(124,92,252,0.15);
     }
 
-    /* ── PREVIEW (always visible) ── */
+    /* ── PREVIEW ── */
     .week-preview {
       display: grid;
       grid-template-columns: 220px 1fr;
       gap: 0;
       min-height: 160px;
     }
-    .week-thumb {
-      width: 100%;
-      height: 100%;
-      min-height: 160px;
-      object-fit: cover;
-      display: block;
-    }
+    .week-thumb { width: 100%; height: 100%; min-height: 160px; object-fit: cover; display: block; }
     .week-thumb-placeholder {
-      width: 100%;
-      height: 100%;
-      min-height: 160px;
+      width: 100%; height: 100%; min-height: 160px;
       background: linear-gradient(135deg, #f0eaff 0%, #e8dfff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--purple-light);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--purple-light); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em;
     }
     .week-preview-text {
       padding: 1.5rem 1.75rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      display: flex; flex-direction: column; justify-content: center;
     }
-    .week-preview-top {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-    }
+    .week-preview-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
     .week-number {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: #fff;
+      font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
       background: linear-gradient(135deg, var(--purple), var(--purple-light));
-      padding: 0.25rem 0.65rem;
-      border-radius: 100px;
-      white-space: nowrap;
+      padding: 0.25rem 0.65rem; border-radius: 100px; white-space: nowrap;
     }
-    .week-date-inline {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--muted);
-    }
-    .week-preview-text h3 {
-      font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem;
-    }
+    .week-date-inline { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+    .week-preview-text h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
     .week-preview-text .week-short-desc {
       font-size: 0.84rem; color: var(--muted); line-height: 1.65; font-weight: 300;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .week-preview-text .week-tags {
-      margin-top: 0.6rem;
-      display: flex; flex-wrap: wrap; gap: 0.3rem;
-    }
+    .week-preview-text .week-tags { margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
     .week-tags span {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.58rem; color: var(--purple);
-      border: 1px solid rgba(124, 92, 252, 0.2);
-      padding: 0.15rem 0.5rem; border-radius: 100px;
+      font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--purple);
+      border: 1px solid rgba(124,92,252,0.2); padding: 0.15rem 0.5rem; border-radius: 100px;
     }
 
     /* ── TOGGLE BUTTON ── */
     .week-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      width: 100%;
-      padding: 0.7rem;
-      border: none;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      width: 100%; padding: 0.7rem; border: none;
       border-top: 1px solid var(--border);
-      background: rgba(124, 92, 252, 0.03);
-      color: var(--purple);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.3s;
+      background: rgba(124,92,252,0.03); color: var(--purple);
+      font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
     }
-    .week-toggle:hover {
-      background: rgba(124, 92, 252, 0.08);
-    }
-    .week-toggle svg {
-      width: 14px; height: 14px;
-      transition: transform 0.3s;
-    }
-    .week-card.expanded .week-toggle svg {
-      transform: rotate(180deg);
-    }
+    .week-toggle:hover { background: rgba(124,92,252,0.08); }
+    .week-toggle svg { width: 14px; height: 14px; transition: transform 0.3s; }
+    .week-card.expanded .week-toggle svg { transform: rotate(180deg); }
 
-    /* ── DETAILS (hidden by default) ── */
+    /* ── DETAILS (hidden) ── */
     .week-details {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.5s ease;
+      transition: max-height 0.6s ease;
     }
     .week-card.expanded .week-details {
-      max-height: 3000px;
+      max-height: 5000px;
     }
+
+    /* ── DETAILS INNER: LEFT/RIGHT SPLIT ── */
     .week-details-inner {
-      padding: 1.75rem;
+      padding: 2rem;
       border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
     }
-    .week-details-inner h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
+
+    /* LEFT: main media */
+    .week-detail-left { }
+    .week-detail-left h4 {
+      font-size: 0.78rem; font-weight: 700; color: var(--purple);
+      font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .week-main-media {
+      border-radius: 10px; overflow: hidden; background: #f3f0fa;
+    }
+    .week-main-media img {
+      width: 100%; display: block; border-radius: 10px; cursor: pointer;
+    }
+    .week-main-media iframe {
+      width: 100%; aspect-ratio: 16 / 9; border: none; display: block; border-radius: 10px;
+    }
+    .week-main-media video {
+      width: 100%; display: block; border-radius: 10px;
+    }
+    .week-main-media audio {
+      width: 100%; margin-top: 0.5rem;
+    }
+    .week-media-placeholder {
+      width: 100%; aspect-ratio: 16 / 9;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--purple-light); font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; letter-spacing: 0.08em;
+    }
+
+    /* RIGHT: description + process images */
+    .week-detail-right { }
+    .week-detail-right h4 {
+      font-size: 0.78rem; font-weight: 700; color: var(--purple);
+      font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
       margin-bottom: 0.75rem;
     }
     .week-full-desc {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.85;
-      font-weight: 300;
-      margin-bottom: 1.5rem;
+      font-size: 0.86rem; color: var(--muted); line-height: 1.85; font-weight: 300;
+      margin-bottom: 1.25rem;
     }
 
-    /* ── MEDIA GALLERY ── */
-    .week-gallery {
+    /* process photos grid */
+    .week-process-label {
+      font-size: 0.72rem; font-weight: 700; color: var(--purple);
+      font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.6rem; margin-top: 0.5rem;
+    }
+    .week-process-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .week-gallery.two-col {
       grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
     }
-    .week-gallery-item {
-      border-radius: 10px;
-      overflow: hidden;
-      background: #f3f0fa;
+    .week-process-grid img {
+      width: 100%; border-radius: 8px; display: block;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
     }
-    .week-gallery-item img {
-      width: 100%; display: block; border-radius: 10px;
+    .week-process-grid img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(124,92,252,0.12);
     }
-    .week-gallery-item iframe {
-      width: 100%; aspect-ratio: 16 / 9; border: none; display: block; border-radius: 10px;
-    }
-    .week-gallery-placeholder {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--purple-light);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-    }
-    .week-gallery-caption {
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-style: italic;
-      margin-top: 0.35rem;
-      font-weight: 300;
+    .process-img-placeholder {
+      width: 100%; aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, #f0eaff 0%, #e8dfff 100%);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--purple-light); font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; letter-spacing: 0.08em;
     }
 
-    /* ── EXTERNAL LINK ── */
+    /* external link */
     .week-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--purple);
-      text-decoration: none;
-      margin-top: 0.75rem;
-      transition: opacity 0.3s;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.8rem; font-weight: 600; color: var(--purple);
+      text-decoration: none; margin-top: 0.75rem; transition: opacity 0.3s;
     }
     .week-link:hover { opacity: 0.7; }
     .week-link svg { width: 14px; height: 14px; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img {
+      max-width: 90%; max-height: 90%;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      background: none; border: none;
+      color: #fff; font-size: 2rem;
+      cursor: pointer; opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ── EXPANDED STATE: wider container ── */
+    body.has-expanded .weeks-container {
+      max-width: 1100px;
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -285,6 +278,10 @@
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .week-details-inner { grid-template-columns: 1fr; }
+      body.has-expanded .weeks-container { max-width: 760px; }
+    }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .page-header { padding: 8rem 1.5rem 3rem; }
@@ -292,12 +289,18 @@
       .week-preview { grid-template-columns: 1fr; }
       .week-thumb, .week-thumb-placeholder { min-height: 180px; max-height: 220px; }
       .week-preview-text { padding: 1.25rem; }
-      .week-details-inner { padding: 1.25rem; }
-      .week-gallery.two-col { grid-template-columns: 1fr; }
+      .week-details-inner { padding: 1.25rem; grid-template-columns: 1fr; }
+      .week-process-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="Enlarged view">
+  </div>
 
   <!-- NAV -->
   <nav>
@@ -312,9 +315,7 @@
   <div class="page-header">
     <div class="section-label">Cornell · Spring 2026</div>
     <h1>Art*<span>Tech</span></h1>
-    <p>
-      A semester-long documentation of weekly projects exploring creative intersections of art, technology, and interaction.
-    </p>
+    <p>A semester-long documentation of weekly projects exploring creative intersections of art, technology, and interaction.</p>
     <div class="divider-center"></div>
   </div>
 
@@ -325,10 +326,8 @@
     <!-- WEEK 2 -->
     <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-
-      <!-- PREVIEW (always visible) -->
       <div class="week-preview">
-        <!-- THUMBNAIL: replace with <img src="images/week2-thumb.jpg" alt="..." class="week-thumb"> -->
+        <!-- THUMBNAIL: <img src="images/week2-thumb.jpg" alt="..." class="week-thumb"> -->
         <div class="week-thumb-placeholder">thumbnail</div>
         <div class="week-preview-text">
           <div class="week-preview-top">
@@ -336,51 +335,58 @@
             <span class="week-date-inline">Jan 30, 2026</span>
           </div>
           <h3>30 Second Film about ROMANTIC LOVE</h3>
-          <p class="week-short-desc">What is love? A short film exploring romantic love through AI-generated voiceover and edited footage.</p>
+          <p class="week-short-desc">What is love? a 30-second film exploring romantic love that features a clear epiphany or emotional transition.</p>
           <div class="week-tags">
             <span>Final Cut X</span><span>ElevenLabs</span>
           </div>
         </div>
       </div>
 
-      <!-- TOGGLE BUTTON -->
-      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+      <button class="week-toggle" onclick="toggleCard(this)">
         View Details
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
       </button>
 
-      <!-- DETAILS (hidden until expanded) -->
       <div class="week-details">
         <div class="week-details-inner">
-          <h4>About this project</h4>
-          <p class="week-full-desc">
-            Write your full project description here. Explain the concept, process, challenges, and what you learned. You can write as much as you want — this section only appears when the user clicks "View Details."
-          </p>
-
-          <!-- GALLERY: add images, videos, or both -->
-          <div class="week-gallery">
-            <!-- Example image -->
-            <div class="week-gallery-item">
-              <div class="week-gallery-placeholder">[ Add image: images/week2-1.jpg ]</div>
-              <!-- <img src="images/week2-1.jpg" alt="Film still 1"> -->
-            </div>
-            <!-- Example video -->
-            <div class="week-gallery-item">
-              <div class="week-gallery-placeholder">[ Add video: youtube embed ]</div>
-              <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+          <!-- LEFT: main project media -->
+          <div class="week-detail-left">
+            <h4>Project</h4>
+            <div class="week-main-media">
+              <div class="week-media-placeholder">[ Main video or image ]</div>
+              <!-- VIDEO: <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+              <!-- IMAGE: <img src="images/week2-main.jpg" alt="..." onclick="openLightbox(this)"> -->
+              <!-- AUDIO: <audio controls><source src="media/week2.mp3" type="audio/mpeg"></audio> -->
             </div>
           </div>
 
-          <!-- Optional: external link -->
-          <!--
-          <a href="https://your-url.com" target="_blank" class="week-link">
-            Watch Full Film
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-          </a>
-          -->
+          <!-- RIGHT: description + process photos -->
+          <div class="week-detail-right">
+            <h4>Description</h4>
+            <p class="week-full-desc">
+              Write your full project description here. Explain the concept, process, challenges, and what you learned.
+            </p>
+
+            <div class="week-process-label">Process</div>
+            <div class="week-process-grid">
+              <!-- Click any image to enlarge -->
+              <!-- <img src="images/week2-process1.jpg" alt="Process 1" onclick="openLightbox(this)"> -->
+              <!-- <img src="images/week2-process2.jpg" alt="Process 2" onclick="openLightbox(this)"> -->
+              <div class="process-img-placeholder">photo 1</div>
+              <div class="process-img-placeholder">photo 2</div>
+              <div class="process-img-placeholder">photo 3</div>
+              <div class="process-img-placeholder">photo 4</div>
+            </div>
+
+            <!--
+            <a href="https://url.com" target="_blank" class="week-link">
+              Watch Full Film
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+            </a>
+            -->
+          </div>
         </div>
       </div>
-
     </div>
 
 
@@ -388,7 +394,6 @@
     <!-- WEEK 3 -->
     <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-
       <div class="week-preview">
         <div class="week-thumb-placeholder">thumbnail</div>
         <div class="week-preview-text">
@@ -397,32 +402,38 @@
             <span class="week-date-inline">Feb 13, 2026</span>
           </div>
           <h3>Listen - What?</h3>
-          <p class="week-short-desc">Brief one-two sentence description of the project goes here.</p>
+          <p class="week-short-desc">30-second to two-minute abstract audio composition using electronic or electromechanical sources that avoids traditional narrative or musical structures.</p>
           <div class="week-tags">
             <span>Final Cut X</span>
           </div>
         </div>
       </div>
 
-      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+      <button class="week-toggle" onclick="toggleCard(this)">
         View Details
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
       </button>
 
       <div class="week-details">
         <div class="week-details-inner">
-          <h4>About this project</h4>
-          <p class="week-full-desc">
-            Full description goes here.
-          </p>
-          <div class="week-gallery">
-            <div class="week-gallery-item">
-              <div class="week-gallery-placeholder">[ Add media ]</div>
+          <div class="week-detail-left">
+            <h4>Project</h4>
+            <div class="week-main-media">
+              <div class="week-media-placeholder">[ Main audio or video ]</div>
+              <!-- AUDIO: <audio controls style="width:100%;"><source src="media/week3.mp3" type="audio/mpeg"></audio> -->
+            </div>
+          </div>
+          <div class="week-detail-right">
+            <h4>Description</h4>
+            <p class="week-full-desc">Full description goes here.</p>
+            <div class="week-process-label">Process</div>
+            <div class="week-process-grid">
+              <div class="process-img-placeholder">photo 1</div>
+              <div class="process-img-placeholder">photo 2</div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
 
@@ -430,7 +441,6 @@
     <!-- WEEK 5 -->
     <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-
       <div class="week-preview">
         <div class="week-thumb-placeholder">thumbnail</div>
         <div class="week-preview-text">
@@ -446,29 +456,32 @@
         </div>
       </div>
 
-      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+      <button class="week-toggle" onclick="toggleCard(this)">
         View Details
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
       </button>
 
       <div class="week-details">
         <div class="week-details-inner">
-          <h4>About this project</h4>
-          <p class="week-full-desc">
-            Full description goes here.
-          </p>
-          <!-- Use two-col class for side-by-side images -->
-          <div class="week-gallery two-col">
-            <div class="week-gallery-item">
-              <div class="week-gallery-placeholder">[ Image 1 ]</div>
+          <div class="week-detail-left">
+            <h4>Project</h4>
+            <div class="week-main-media">
+              <div class="week-media-placeholder">[ Main media ]</div>
             </div>
-            <div class="week-gallery-item">
-              <div class="week-gallery-placeholder">[ Image 2 ]</div>
+          </div>
+          <div class="week-detail-right">
+            <h4>Description</h4>
+            <p class="week-full-desc">Full description goes here.</p>
+            <div class="week-process-label">Process</div>
+            <div class="week-process-grid">
+              <div class="process-img-placeholder">photo 1</div>
+              <div class="process-img-placeholder">photo 2</div>
+              <div class="process-img-placeholder">photo 3</div>
+              <div class="process-img-placeholder">photo 4</div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
 
@@ -476,7 +489,6 @@
     <!-- WEEK 6 -->
     <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-
       <div class="week-preview">
         <div class="week-thumb-placeholder">thumbnail</div>
         <div class="week-preview-text">
@@ -485,32 +497,37 @@
             <span class="week-date-inline">Mar 6, 2026</span>
           </div>
           <h3>Hack</h3>
-          <p class="week-short-desc">Brief one-two sentence description of the project goes here.</p>
+          <p class="week-short-desc">A project that modifies, augments, or redirects the purpose of an existing object or system, drawing on the historical "hack" tradition.</p>
           <div class="week-tags">
             <span>Arduino</span>
           </div>
         </div>
       </div>
 
-      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+      <button class="week-toggle" onclick="toggleCard(this)">
         View Details
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
       </button>
 
       <div class="week-details">
         <div class="week-details-inner">
-          <h4>About this project</h4>
-          <p class="week-full-desc">
-            Full description goes here.
-          </p>
-          <div class="week-gallery">
-            <div class="week-gallery-item">
-              <div class="week-gallery-placeholder">[ Add media ]</div>
+          <div class="week-detail-left">
+            <h4>Project</h4>
+            <div class="week-main-media">
+              <div class="week-media-placeholder">[ Main media ]</div>
+            </div>
+          </div>
+          <div class="week-detail-right">
+            <h4>Description</h4>
+            <p class="week-full-desc">Full description goes here.</p>
+            <div class="week-process-label">Process</div>
+            <div class="week-process-grid">
+              <div class="process-img-placeholder">photo 1</div>
+              <div class="process-img-placeholder">photo 2</div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
 
@@ -520,11 +537,9 @@
       ═══════════════════════════════════════════════════════
 
       <div class="week-card fade-in">
-
         <div class="week-preview">
-          THUMBNAIL — pick one:
-            Image:       <img src="images/weekX-thumb.jpg" alt="..." class="week-thumb">
-            Placeholder: <div class="week-thumb-placeholder">thumbnail</div>
+          <img src="images/weekX-thumb.jpg" alt="..." class="week-thumb">
+          OR: <div class="week-thumb-placeholder">thumbnail</div>
 
           <div class="week-preview-text">
             <div class="week-preview-top">
@@ -533,62 +548,62 @@
             </div>
             <h3>Project Title</h3>
             <p class="week-short-desc">One-two sentence description.</p>
-            <div class="week-tags">
-              <span>Tool</span><span>Tool</span>
-            </div>
+            <div class="week-tags"><span>Tool</span></div>
           </div>
         </div>
 
-        <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        <button class="week-toggle" onclick="toggleCard(this)">
           View Details
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
         </button>
 
         <div class="week-details">
           <div class="week-details-inner">
-            <h4>About this project</h4>
-            <p class="week-full-desc">
-              Full description here.
-            </p>
 
-            GALLERY — full width:
-            <div class="week-gallery">
-              <div class="week-gallery-item">
-                <img src="images/weekX-1.jpg" alt="...">
-              </div>
-            </div>
+            LEFT SIDE — main project output:
+            <div class="week-detail-left">
+              <h4>Project</h4>
+              <div class="week-main-media">
 
-            GALLERY — two columns:
-            <div class="week-gallery two-col">
-              <div class="week-gallery-item">
-                <img src="images/weekX-1.jpg" alt="...">
-              </div>
-              <div class="week-gallery-item">
-                <img src="images/weekX-2.jpg" alt="...">
-              </div>
-            </div>
+                IMAGE (clickable to enlarge):
+                <img src="images/weekX-main.jpg" alt="..." onclick="openLightbox(this)">
 
-            VIDEO:
-            <div class="week-gallery">
-              <div class="week-gallery-item">
+                YOUTUBE VIDEO:
                 <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+
+                UPLOADED VIDEO (under 25MB):
+                <video controls><source src="media/weekX.mp4" type="video/mp4"></video>
+
+                AUDIO:
+                <audio controls style="width:100%;"><source src="media/weekX.mp3" type="audio/mpeg"></audio>
+
               </div>
             </div>
 
-            EXTERNAL LINK:
-            <a href="https://url.com" target="_blank" class="week-link">
-              View Project
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-            </a>
+            RIGHT SIDE — description + process photos:
+            <div class="week-detail-right">
+              <h4>Description</h4>
+              <p class="week-full-desc">Your full description here.</p>
+
+              <div class="week-process-label">Process</div>
+              <div class="week-process-grid">
+                All images are clickable to enlarge!
+                <img src="images/weekX-p1.jpg" alt="Process 1" onclick="openLightbox(this)">
+                <img src="images/weekX-p2.jpg" alt="Process 2" onclick="openLightbox(this)">
+                <img src="images/weekX-p3.jpg" alt="Process 3" onclick="openLightbox(this)">
+                <img src="images/weekX-p4.jpg" alt="Process 4" onclick="openLightbox(this)">
+              </div>
+
+              OPTIONAL external link:
+              <a href="https://url.com" target="_blank" class="week-link">
+                View Project
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+              </a>
+            </div>
+
           </div>
         </div>
-
       </div>
-
-      IMAGE UPLOADS:
-      1. In your repo: Add file > Create new file > type images/.gitkeep > Commit
-      2. Navigate into images folder > Upload files
-      3. Reference as: images/filename.jpg
     -->
 
   </div>
@@ -596,12 +611,43 @@
   <footer>&copy; 2026 Nayoung Kim</footer>
 
   <script>
+    // Fade in on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.15 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Toggle card expand + widen container
+    function toggleCard(btn) {
+      const card = btn.closest('.week-card');
+      card.classList.toggle('expanded');
+      // Check if any card is expanded → widen container
+      const anyExpanded = document.querySelector('.week-card.expanded');
+      if (anyExpanded) {
+        document.body.classList.add('has-expanded');
+      } else {
+        document.body.classList.remove('has-expanded');
+      }
+    }
+
+    // Lightbox for images
+    function openLightbox(img) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = img.src;
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
   </script>
 
 </body>
