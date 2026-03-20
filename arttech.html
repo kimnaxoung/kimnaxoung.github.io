@@ -5,16 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Art*Tech — Nayoung Kim</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #1e1e2f;
-      --white: #ffffff;
+      --ink: #0f0f1a;
+      --cream: #f0ece2;
+      --navy: #1b1464;
+      --indigo: #2d1b69;
+      --purple-deep: #4a0e8f;
       --purple: #7c5cfc;
       --purple-light: #a78bfa;
-      --purple-glow: rgba(124, 92, 252, 0.12);
-      --muted: #7b7b8e;
-      --border: #e8e6f0;
+      --purple-pink: #c77dff;
+      --muted: #6e6b80;
+      --border: #d8d0c8;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -22,262 +25,242 @@
       font-family: 'Sora', sans-serif;
       color: var(--ink);
       line-height: 1.7;
-      font-weight: 400;
+      background: var(--cream);
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      background: linear-gradient(180deg, #ffffff 0%, #f8f5ff 20%, #f0eaff 40%, #ece5ff 55%, #f0eaff 70%, #f8f5ff 85%, #ffffff 100%);
-      background-attachment: fixed;
     }
-    body::before {
+    h1, h2, h3, h4 { font-family: 'Playfair Display', 'Times New Roman', Georgia, serif; }
+
+    /* ══ ANIMATED BACKGROUND ══ */
+    .bg-blobs {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      will-change: transform;
+    }
+    .bg-blob-1 {
+      width: 550px; height: 550px;
+      background: radial-gradient(circle at 40% 40%, #7b2ff7 0%, #4a0e8f 40%, #1b1464 100%);
+      top: -10%; right: -8%;
+    }
+    .bg-blob-2 {
+      width: 450px; height: 450px;
+      background: radial-gradient(circle at 60% 40%, #c77dff 0%, #9b5de5 40%, #2d1b69 100%);
+      top: 30%; left: -12%;
+    }
+    .bg-blob-3 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #a78bfa 0%, #5c4cfc 40%, #1b1464 100%);
+      bottom: -8%; right: 10%;
+    }
+    .bg-blob-4 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, #e0aaff 0%, #7b2ff7 50%, #1a0a5c 100%);
+      bottom: 20%; left: 20%;
+    }
+    .bg-blob-5 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #d4bbff 0%, #4a0e8f 60%, #0f0f1a 100%);
+      top: 60%; right: -5%;
+    }
+    /* grain */
+    .bg-blobs::after {
       content: '';
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 1000;
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
     }
 
-    /* ── NAV ── */
+    .content { position: relative; z-index: 1; }
+
+    /* ══ NAV ══ */
     nav {
       position: fixed; top: 0; width: 100%;
       padding: 1.25rem 3rem;
       display: flex; justify-content: space-between; align-items: center;
       z-index: 100;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(240, 236, 226, 0.4);
+      backdrop-filter: blur(20px);
     }
-    nav .logo { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--purple); text-decoration: none; }
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--ink); text-decoration: none; font-weight: 700;
+    }
     nav .back-link {
-      text-decoration: none; color: var(--muted); font-size: 0.78rem; font-weight: 500;
-      letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.3s;
+      text-decoration: none; color: var(--ink); font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.04em; transition: opacity 0.3s; opacity: 0.6;
       display: flex; align-items: center; gap: 0.4rem;
     }
-    nav .back-link:hover { color: var(--purple); }
+    nav .back-link:hover { opacity: 1; }
     nav .back-link svg { width: 14px; height: 14px; }
 
-    /* ── PAGE HEADER ── */
+    /* ══ PAGE HEADER ══ */
     .page-header { padding: 10rem 3rem 4rem; max-width: 920px; margin: 0 auto; text-align: center; }
     .page-header .section-label {
-      font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem;
+      font-family: 'Space Mono', monospace; font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple-deep); margin-bottom: 0.75rem;
     }
-    .page-header h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: -0.03em; font-weight: 700; margin-bottom: 1rem; }
+    .page-header h1 {
+      font-size: clamp(2.4rem, 5vw, 3.5rem); letter-spacing: -0.02em; font-weight: 800; margin-bottom: 1rem;
+    }
     .page-header h1 span {
-      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      font-style: italic;
+      background: linear-gradient(135deg, var(--navy), var(--purple), var(--purple-pink));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .page-header p { font-size: 1rem; color: var(--muted); font-weight: 300; line-height: 1.85; max-width: 540px; margin: 0 auto; }
-    .divider-center { width: 40px; height: 3px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); border-radius: 2px; margin: 1.5rem auto 0; }
+    .divider-center {
+      width: 40px; height: 3px;
+      background: linear-gradient(90deg, var(--navy), var(--purple-pink));
+      border-radius: 2px; margin: 1.5rem auto 0;
+    }
 
-    /* ── WEEKS CONTAINER ── */
+    /* ══ WEEKS ══ */
     .weeks-container { max-width: 760px; margin: 0 auto; padding: 2rem 3rem 6rem; transition: max-width 0.5s ease; }
 
-    /* ── WEEK CARD ── */
     .week-card {
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.4);
       border-radius: 14px;
       overflow: hidden;
       margin-bottom: 1.5rem;
       transition: all 0.45s ease;
     }
     .week-card:hover {
-      box-shadow: 0 12px 40px rgba(124,92,252,0.06);
-      border-color: rgba(124,92,252,0.15);
+      box-shadow: 0 12px 40px rgba(27,20,100,0.08);
+      border-color: rgba(124,92,252,0.2);
     }
 
-    /* ── PREVIEW ── */
-    .week-preview {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 0;
-      min-height: 160px;
-    }
+    .week-preview { display: grid; grid-template-columns: 220px 1fr; gap: 0; min-height: 160px; }
     .week-thumb { width: 100%; height: 100%; min-height: 160px; object-fit: cover; display: block; }
     .week-thumb-placeholder {
       width: 100%; height: 100%; min-height: 160px;
-      background: linear-gradient(135deg, #f0eaff 0%, #e8dfff 100%);
+      background: linear-gradient(135deg, #2d1b69 0%, #4a0e8f 50%, #1b1464 100%);
       display: flex; align-items: center; justify-content: center;
-      color: var(--purple-light); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3); font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em;
     }
-    .week-preview-text {
-      padding: 1.5rem 1.75rem;
-      display: flex; flex-direction: column; justify-content: center;
-    }
+    .week-preview-text { padding: 1.5rem 1.75rem; display: flex; flex-direction: column; justify-content: center; }
     .week-preview-top { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
     .week-number {
       font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
-      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+      background: linear-gradient(135deg, var(--navy), var(--purple-deep));
       padding: 0.25rem 0.65rem; border-radius: 100px; white-space: nowrap;
     }
     .week-date-inline { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); }
-    .week-preview-text h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .week-preview-text h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.35rem; }
     .week-preview-text .week-short-desc {
       font-size: 0.84rem; color: var(--muted); line-height: 1.65; font-weight: 300;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     .week-preview-text .week-tags { margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
     .week-tags span {
-      font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--purple);
-      border: 1px solid rgba(124,92,252,0.2); padding: 0.15rem 0.5rem; border-radius: 100px;
+      font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--purple-deep);
+      border: 1px solid rgba(74,14,143,0.25); padding: 0.15rem 0.5rem; border-radius: 100px;
     }
 
-    /* ── TOGGLE BUTTON ── */
     .week-toggle {
       display: flex; align-items: center; justify-content: center; gap: 0.4rem;
       width: 100%; padding: 0.7rem; border: none;
       border-top: 1px solid var(--border);
-      background: rgba(124,92,252,0.03); color: var(--purple);
+      background: rgba(27,20,100,0.04); color: var(--navy);
       font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700;
       letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
     }
-    .week-toggle:hover { background: rgba(124,92,252,0.08); }
+    .week-toggle:hover { background: rgba(27,20,100,0.08); }
     .week-toggle svg { width: 14px; height: 14px; transition: transform 0.3s; }
     .week-card.expanded .week-toggle svg { transform: rotate(180deg); }
 
-    /* ── DETAILS (hidden) ── */
-    .week-details {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.6s ease;
-    }
-    .week-card.expanded .week-details {
-      max-height: 5000px;
-    }
+    .week-details { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
+    .week-card.expanded .week-details { max-height: 5000px; }
 
-    /* ── DETAILS INNER: LEFT/RIGHT SPLIT ── */
     .week-details-inner {
-      padding: 2rem;
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      padding: 2rem; border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
     }
 
-    /* LEFT: main media */
-    .week-detail-left { }
-    .week-detail-left h4 {
-      font-size: 0.78rem; font-weight: 700; color: var(--purple);
+    .week-detail-left h4, .week-detail-right h4 {
+      font-size: 0.78rem; font-weight: 700; color: var(--navy);
       font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
       margin-bottom: 0.75rem;
     }
-    .week-main-media {
-      border-radius: 10px; overflow: hidden; background: #f3f0fa;
-    }
-    .week-main-media img {
-      width: 100%; display: block; border-radius: 10px; cursor: pointer;
-    }
-    .week-main-media iframe {
-      width: 100%; aspect-ratio: 16 / 9; border: none; display: block; border-radius: 10px;
-    }
-    .week-main-media video {
-      width: 100%; display: block; border-radius: 10px;
-    }
-    .week-main-media audio {
-      width: 100%; margin-top: 0.5rem;
-    }
+    .week-main-media { border-radius: 10px; overflow: hidden; background: #1b1464; }
+    .week-main-media img { width: 100%; display: block; border-radius: 10px; cursor: pointer; }
+    .week-main-media iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; border-radius: 10px; }
+    .week-main-media video { width: 100%; display: block; border-radius: 10px; }
+    .week-main-media audio { width: 100%; margin-top: 0.5rem; }
     .week-media-placeholder {
       width: 100%; aspect-ratio: 16 / 9;
       display: flex; align-items: center; justify-content: center;
-      color: var(--purple-light); font-family: 'Space Mono', monospace;
+      color: rgba(255,255,255,0.25); font-family: 'Space Mono', monospace;
       font-size: 0.75rem; letter-spacing: 0.08em;
     }
 
-    /* RIGHT: description + process images */
-    .week-detail-right { }
-    .week-detail-right h4 {
-      font-size: 0.78rem; font-weight: 700; color: var(--purple);
-      font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-    .week-full-desc {
-      font-size: 0.86rem; color: var(--muted); line-height: 1.85; font-weight: 300;
-      margin-bottom: 1.25rem;
-    }
+    .week-full-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.25rem; }
 
-    /* process photos grid */
     .week-process-label {
-      font-size: 0.72rem; font-weight: 700; color: var(--purple);
+      font-size: 0.72rem; font-weight: 700; color: var(--navy);
       font-family: 'Space Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
       margin-bottom: 0.6rem; margin-top: 0.5rem;
     }
-    .week-process-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.6rem;
-    }
+    .week-process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
     .week-process-grid img {
       width: 100%; border-radius: 8px; display: block;
       cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
     }
-    .week-process-grid img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 24px rgba(124,92,252,0.12);
-    }
+    .week-process-grid img:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(27,20,100,0.15); }
     .process-img-placeholder {
       width: 100%; aspect-ratio: 4 / 3;
-      background: linear-gradient(135deg, #f0eaff 0%, #e8dfff 100%);
+      background: linear-gradient(135deg, #2d1b69 0%, #4a0e8f 100%);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      color: var(--purple-light); font-family: 'Space Mono', monospace;
+      color: rgba(255,255,255,0.2); font-family: 'Space Mono', monospace;
       font-size: 0.65rem; letter-spacing: 0.08em;
     }
 
-    /* external link */
     .week-link {
       display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.8rem; font-weight: 600; color: var(--purple);
+      font-size: 0.8rem; font-weight: 600; color: var(--navy);
       text-decoration: none; margin-top: 0.75rem; transition: opacity 0.3s;
     }
     .week-link:hover { opacity: 0.7; }
     .week-link svg { width: 14px; height: 14px; }
 
-    /* ── LIGHTBOX ── */
+    /* lightbox */
     .lightbox {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.88);
+      z-index: 9999; align-items: center; justify-content: center; cursor: zoom-out;
     }
     .lightbox.active { display: flex; }
-    .lightbox img {
-      max-width: 90%; max-height: 90%;
-      border-radius: 8px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    }
+    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
     .lightbox-close {
-      position: absolute;
-      top: 1.5rem; right: 2rem;
-      background: none; border: none;
-      color: #fff; font-size: 2rem;
-      cursor: pointer; opacity: 0.7;
-      transition: opacity 0.3s;
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: #fff; font-size: 2rem;
+      cursor: pointer; opacity: 0.7; transition: opacity 0.3s;
     }
     .lightbox-close:hover { opacity: 1; }
 
-    /* ── EXPANDED STATE: wider container ── */
-    body.has-expanded .weeks-container {
-      max-width: 1100px;
-    }
+    body.has-expanded .weeks-container { max-width: 1100px; }
 
-    /* ── FOOTER ── */
     footer {
-      text-align: center; padding: 2rem;
-      font-family: 'Space Mono', monospace; font-size: 0.68rem;
-      color: var(--muted); border-top: 1px solid var(--border);
+      text-align: center; padding: 2rem; font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; color: var(--muted); border-top: 1px solid var(--border);
     }
 
-    /* ── FADE-IN ── */
     .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .week-details-inner { grid-template-columns: 1fr; }
       body.has-expanded .weeks-container { max-width: 760px; }
@@ -290,11 +273,20 @@
       .week-thumb, .week-thumb-placeholder { min-height: 180px; max-height: 220px; }
       .week-preview-text { padding: 1.25rem; }
       .week-details-inner { padding: 1.25rem; grid-template-columns: 1fr; }
-      .week-process-grid { grid-template-columns: 1fr 1fr; }
+      .bg-blob { filter: blur(60px); opacity: 0.3; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ANIMATED BACKGROUND -->
+  <div class="bg-blobs" id="bgBlobs">
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+    <div class="bg-blob bg-blob-4"></div>
+    <div class="bg-blob bg-blob-5"></div>
+  </div>
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -302,352 +294,246 @@
     <img id="lightbox-img" src="" alt="Enlarged view">
   </div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="index.html" class="logo">nayoung.kim</a>
-    <a href="index.html" class="back-link">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
-      Back to Portfolio
-    </a>
-  </nav>
+  <div class="content">
 
-  <!-- PAGE HEADER -->
-  <div class="page-header">
-    <div class="section-label">Cornell · Spring 2026</div>
-    <h1>Art*<span>Tech</span></h1>
-    <p>A semester-long documentation of weekly projects exploring creative intersections of art, technology, and interaction.</p>
-    <div class="divider-center"></div>
-  </div>
+    <nav>
+      <a href="index.html" class="logo">Nayoung Kim</a>
+      <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+        Back to Portfolio
+      </a>
+    </nav>
 
-  <!-- WEEKS -->
-  <div class="weeks-container">
-
-    <!-- ══════════════════════════════════ -->
-    <!-- WEEK 2 -->
-    <!-- ══════════════════════════════════ -->
-    <div class="week-card fade-in">
-      <div class="week-preview">
-        <!-- THUMBNAIL: <img src="images/week2-thumb.jpg" alt="..." class="week-thumb"> -->
-        <div class="week-thumb-placeholder">thumbnail</div>
-        <div class="week-preview-text">
-          <div class="week-preview-top">
-            <span class="week-number">Week 2</span>
-            <span class="week-date-inline">Jan 30, 2026</span>
-          </div>
-          <h3>30 Second Film about ROMANTIC LOVE</h3>
-          <p class="week-short-desc">What is love? a 30-second film exploring romantic love that features a clear epiphany or emotional transition.</p>
-          <div class="week-tags">
-            <span>Final Cut X</span><span>ElevenLabs</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="week-toggle" onclick="toggleCard(this)">
-        View Details
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-      </button>
-
-      <div class="week-details">
-        <div class="week-details-inner">
-          <!-- LEFT: main project media -->
-          <div class="week-detail-left">
-            <h4>Project</h4>
-            <div class="week-main-media">
-              <div class="week-media-placeholder">[ Main video or image ]</div>
-              <!-- VIDEO: <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
-              <!-- IMAGE: <img src="images/week2-main.jpg" alt="..." onclick="openLightbox(this)"> -->
-              <!-- AUDIO: <audio controls><source src="media/week2.mp3" type="audio/mpeg"></audio> -->
-            </div>
-          </div>
-
-          <!-- RIGHT: description + process photos -->
-          <div class="week-detail-right">
-            <h4>Description</h4>
-            <p class="week-full-desc">
-              This project explores the paradox of human affection through the lens of color and time. It captures the irony of a thousand days of romantic bond collapsing in just three minutes, shifting the world from a saturated, vibrant landscape into a colorless world. By utilizing a seamless loop, the project illustrates our inevitable return to love, how we knowingly step back into the "coincidence" of a new encounter despite the certain grief that follows. It is a visual testament to the resilient human will to find color again, even after the world turns gray.
-            </p>
-
-            <div class="week-process-label">Process</div>
-            <div class="week-process-grid">
-              <!-- Click any image to enlarge -->
-              <!-- <img src="images/week2-process1.jpg" alt="Process 1" onclick="openLightbox(this)"> -->
-              <!-- <img src="images/week2-process2.jpg" alt="Process 2" onclick="openLightbox(this)"> -->
-              <div class="process-img-placeholder">photo 1</div>
-              <div class="process-img-placeholder">photo 2</div>
-              <div class="process-img-placeholder">photo 3</div>
-              <div class="process-img-placeholder">photo 4</div>
-            </div>
-
-            <!--
-            <a href="https://url.com" target="_blank" class="week-link">
-              Watch Full Film
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-            </a>
-            -->
-          </div>
-        </div>
-      </div>
+    <div class="page-header">
+      <div class="section-label">Cornell · Spring 2026</div>
+      <h1>Art*<span>Tech</span></h1>
+      <p>A semester-long documentation of weekly projects exploring creative intersections of art, technology, and interaction.</p>
+      <div class="divider-center"></div>
     </div>
 
+    <div class="weeks-container">
 
-    <!-- ══════════════════════════════════ -->
-    <!-- WEEK 3 -->
-    <!-- ══════════════════════════════════ -->
-    <div class="week-card fade-in">
-      <div class="week-preview">
-        <div class="week-thumb-placeholder">thumbnail</div>
-        <div class="week-preview-text">
-          <div class="week-preview-top">
-            <span class="week-number">Week 3</span>
-            <span class="week-date-inline">Feb 13, 2026</span>
-          </div>
-          <h3>Listen - What?</h3>
-          <p class="week-short-desc">30-second to two-minute abstract audio composition using electronic or electromechanical sources that avoids traditional narrative or musical structures.</p>
-          <div class="week-tags">
-            <span>Final Cut X</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="week-toggle" onclick="toggleCard(this)">
-        View Details
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-      </button>
-
-      <div class="week-details">
-        <div class="week-details-inner">
-          <div class="week-detail-left">
-            <h4>Project</h4>
-            <div class="week-main-media">
-              <div class="week-media-placeholder">[ Main audio or video ]</div>
-              <!-- AUDIO: <audio controls style="width:100%;"><source src="media/week3.mp3" type="audio/mpeg"></audio> -->
-            </div>
-          </div>
-          <div class="week-detail-right">
-            <h4>Phase Transition of Snow</h4>
-            <p class="week-full-desc">This project explores the concept of Phase Transition by sonically mapping the physical transformation of snow from a solid to a liquid state through a series of textured stepping sounds. Drawing on Trevor Pinch’s "Sculpting Sound" framework, the narrative begins with the high-frequency, crisp "crunch" of dry snow, which gradually dissolves into the dense, low-frequency "slush" of melting ice, effectively sculpting the listener's perception of material density. To provide a cohesive narrative arc, a recording of a bus stop at 10 PM serves as the "Sonic Glue," grounding the abstract transitions in a familiar urban environment. The piece culminates in a surreal departure, where the everyday sound of a bus arrival is transformed using Space Designer and volume envelopes into a spaceship-like sonic event, shifting the listener from a mundane wintry walk into an evocative, otherworldly space.</p>
-            <div class="week-process-label">Process</div>
-            <div class="week-process-grid">
-              <div class="process-img-placeholder">photo 1</div>
-              <div class="process-img-placeholder">photo 2</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ══════════════════════════════════ -->
-    <!-- WEEK 5 -->
-    <!-- ══════════════════════════════════ -->
-    <div class="week-card fade-in">
-      <div class="week-preview">
-        <div class="week-thumb-placeholder">thumbnail</div>
-        <div class="week-preview-text">
-          <div class="week-preview-top">
-            <span class="week-number">Week 5</span>
-            <span class="week-date-inline">Feb 27, 2026</span>
-          </div>
-          <h3>Computing Art</h3>
-          <p class="week-short-desc">Examining the collision between "authentically human" elements through computational art.</p>
-          <div class="week-tags">
-            <span>Reality Capture</span><span>Blender</span><span>Unity</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="week-toggle" onclick="toggleCard(this)">
-        View Details
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-      </button>
-
-      <div class="week-details">
-        <div class="week-details-inner">
-          <div class="week-detail-left">
-            <h4>Project</h4>
-            <div class="week-main-media">
-              <div class="week-media-placeholder">[ Main media ]</div>
-            </div>
-          </div>
-          <div class="week-detail-right">
-            <h4>Description</h4>
-            <p class="week-full-desc">The inspiration for this project began with the observation of a discarded children’s slide, an object that represents a profound social and emotional contradiction. While a slide is a universal symbol of childhood joy, play, and physical memory, its state as "trash" reveals a moment of social abandonment and urban neglect. I wanted to explore the tension between this "authentically human" relic—carrying the physical traces of wear, dirt, and history—and the cold, mathematical nature of computation. By digitizing this abandoned object, the project enacts a conversion of lived material reality into a computable form, questioning whether digital preservation can ever truly recover the "aura" of the original experience.</p>
-            <div class="week-process-label">Process</div>
-            <div class="week-process-grid">
-              <div class="process-img-placeholder">photo 1</div>
-              <div class="process-img-placeholder">photo 2</div>
-              <div class="process-img-placeholder">photo 3</div>
-              <div class="process-img-placeholder">photo 4</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ══════════════════════════════════ -->
-    <!-- WEEK 6 -->
-    <!-- ══════════════════════════════════ -->
-    <div class="week-card fade-in">
-      <div class="week-preview">
-        <div class="week-thumb-placeholder">thumbnail</div>
-        <div class="week-preview-text">
-          <div class="week-preview-top">
-            <span class="week-number">Week 6</span>
-            <span class="week-date-inline">Mar 6, 2026</span>
-          </div>
-          <h3>Hack</h3>
-          <p class="week-short-desc">A project that modifies, augments, or redirects the purpose of an existing object or system, drawing on the historical "hack" tradition.</p>
-          <div class="week-tags">
-            <span>Arduino</span>
-          </div>
-        </div>
-      </div>
-
-      <button class="week-toggle" onclick="toggleCard(this)">
-        View Details
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-      </button>
-
-      <div class="week-details">
-        <div class="week-details-inner">
-          <div class="week-detail-left">
-            <h4>Project</h4>
-            <div class="week-main-media">
-              <div class="week-media-placeholder">[ Main media ]</div>
-            </div>
-          </div>
-          <div class="week-detail-right">
-            <h4>Description</h4>
-            <p class="week-full-desc">This project hacks the most fundamental concept of our environment: silence. In most interactive art, you make noise to get a response. This project, however, hacks that expectation by making silence the active trigger for an alarm. It is an "Inversion Hack"—flipping the rules of cause and effect.</p>
-            <div class="week-process-label">Process</div>
-            <div class="week-process-grid">
-              <div class="process-img-placeholder">photo 1</div>
-              <div class="process-img-placeholder">photo 2</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!--
-      ═══════════════════════════════════════════════════════
-      HOW TO ADD A NEW WEEK — COPY THIS TEMPLATE
-      ═══════════════════════════════════════════════════════
-
+      <!-- WEEK 2 -->
       <div class="week-card fade-in">
         <div class="week-preview">
-          <img src="images/weekX-thumb.jpg" alt="..." class="week-thumb">
-          OR: <div class="week-thumb-placeholder">thumbnail</div>
-
+          <div class="week-thumb-placeholder">thumbnail</div>
           <div class="week-preview-text">
             <div class="week-preview-top">
-              <span class="week-number">Week X</span>
-              <span class="week-date-inline">Month Day, 2026</span>
+              <span class="week-number">Week 2</span>
+              <span class="week-date-inline">Jan 30, 2026</span>
             </div>
-            <h3>Project Title</h3>
-            <p class="week-short-desc">One-two sentence description.</p>
-            <div class="week-tags"><span>Tool</span></div>
+            <h3>30 Second Film about ROMANTIC LOVE</h3>
+            <p class="week-short-desc">What is love? a 30-second film exploring romantic love that features a clear epiphany or emotional transition.</p>
+            <div class="week-tags"><span>Final Cut X</span><span>ElevenLabs</span></div>
           </div>
         </div>
-
-        <button class="week-toggle" onclick="toggleCard(this)">
-          View Details
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-        </button>
-
+        <button class="week-toggle" onclick="toggleCard(this)">View Details <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg></button>
         <div class="week-details">
           <div class="week-details-inner">
-
-            LEFT SIDE — main project output:
             <div class="week-detail-left">
               <h4>Project</h4>
-              <div class="week-main-media">
-
-                IMAGE (clickable to enlarge):
-                <img src="images/weekX-main.jpg" alt="..." onclick="openLightbox(this)">
-
-                YOUTUBE VIDEO:
-                <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
-
-                UPLOADED VIDEO (under 25MB):
-                <video controls><source src="media/weekX.mp4" type="video/mp4"></video>
-
-                AUDIO:
-                <audio controls style="width:100%;"><source src="media/weekX.mp3" type="audio/mpeg"></audio>
-
-              </div>
+              <div class="week-main-media"><div class="week-media-placeholder">[ Main video or image ]</div></div>
             </div>
-
-            RIGHT SIDE — description + process photos:
             <div class="week-detail-right">
               <h4>Description</h4>
-              <p class="week-full-desc">Your full description here.</p>
-
+              <p class="week-full-desc">This project explores the paradox of human affection through the lens of color and time. It captures the irony of a thousand days of romantic bond collapsing in just three minutes, shifting the world from a saturated, vibrant landscape into a colorless world. By utilizing a seamless loop, the project illustrates our inevitable return to love, how we knowingly step back into the "coincidence" of a new encounter despite the certain grief that follows. It is a visual testament to the resilient human will to find color again, even after the world turns gray.</p>
               <div class="week-process-label">Process</div>
               <div class="week-process-grid">
-                All images are clickable to enlarge!
-                <img src="images/weekX-p1.jpg" alt="Process 1" onclick="openLightbox(this)">
-                <img src="images/weekX-p2.jpg" alt="Process 2" onclick="openLightbox(this)">
-                <img src="images/weekX-p3.jpg" alt="Process 3" onclick="openLightbox(this)">
-                <img src="images/weekX-p4.jpg" alt="Process 4" onclick="openLightbox(this)">
+                <div class="process-img-placeholder">photo 1</div>
+                <div class="process-img-placeholder">photo 2</div>
+                <div class="process-img-placeholder">photo 3</div>
+                <div class="process-img-placeholder">photo 4</div>
               </div>
-
-              OPTIONAL external link:
-              <a href="https://url.com" target="_blank" class="week-link">
-                View Project
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-              </a>
             </div>
-
           </div>
         </div>
       </div>
-    -->
 
+      <!-- WEEK 3 -->
+      <div class="week-card fade-in">
+        <div class="week-preview">
+          <div class="week-thumb-placeholder">thumbnail</div>
+          <div class="week-preview-text">
+            <div class="week-preview-top">
+              <span class="week-number">Week 3</span>
+              <span class="week-date-inline">Feb 13, 2026</span>
+            </div>
+            <h3>Listen - What?</h3>
+            <p class="week-short-desc">30-second to two-minute abstract audio composition using electronic or electromechanical sources.</p>
+            <div class="week-tags"><span>Final Cut X</span></div>
+          </div>
+        </div>
+        <button class="week-toggle" onclick="toggleCard(this)">View Details <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg></button>
+        <div class="week-details">
+          <div class="week-details-inner">
+            <div class="week-detail-left">
+              <h4>Project</h4>
+              <div class="week-main-media"><div class="week-media-placeholder">[ Main audio or video ]</div></div>
+            </div>
+            <div class="week-detail-right">
+              <h4>Phase Transition of Snow</h4>
+              <p class="week-full-desc">This project explores the concept of Phase Transition by sonically mapping the physical transformation of snow from a solid to a liquid state through a series of textured stepping sounds. Drawing on Trevor Pinch's "Sculpting Sound" framework, the narrative begins with the high-frequency, crisp "crunch" of dry snow, which gradually dissolves into the dense, low-frequency "slush" of melting ice. The piece culminates in a surreal departure, where the everyday sound of a bus arrival is transformed using Space Designer and volume envelopes into a spaceship-like sonic event.</p>
+              <div class="week-process-label">Process</div>
+              <div class="week-process-grid">
+                <div class="process-img-placeholder">photo 1</div>
+                <div class="process-img-placeholder">photo 2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 5 -->
+      <div class="week-card fade-in">
+        <div class="week-preview">
+          <div class="week-thumb-placeholder">thumbnail</div>
+          <div class="week-preview-text">
+            <div class="week-preview-top">
+              <span class="week-number">Week 5</span>
+              <span class="week-date-inline">Feb 27, 2026</span>
+            </div>
+            <h3>Computing Art</h3>
+            <p class="week-short-desc">Examining the collision between "authentically human" elements through computational art.</p>
+            <div class="week-tags"><span>Reality Capture</span><span>Blender</span><span>Unity</span></div>
+          </div>
+        </div>
+        <button class="week-toggle" onclick="toggleCard(this)">View Details <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg></button>
+        <div class="week-details">
+          <div class="week-details-inner">
+            <div class="week-detail-left">
+              <h4>Project</h4>
+              <div class="week-main-media"><div class="week-media-placeholder">[ Main media ]</div></div>
+            </div>
+            <div class="week-detail-right">
+              <h4>Description</h4>
+              <p class="week-full-desc">The inspiration for this project began with the observation of a discarded children's slide, an object that represents a profound social and emotional contradiction. While a slide is a universal symbol of childhood joy, its state as "trash" reveals a moment of social abandonment. By digitizing this abandoned object, the project enacts a conversion of lived material reality into a computable form, questioning whether digital preservation can ever truly recover the "aura" of the original experience.</p>
+              <div class="week-process-label">Process</div>
+              <div class="week-process-grid">
+                <div class="process-img-placeholder">photo 1</div>
+                <div class="process-img-placeholder">photo 2</div>
+                <div class="process-img-placeholder">photo 3</div>
+                <div class="process-img-placeholder">photo 4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 6 -->
+      <div class="week-card fade-in">
+        <div class="week-preview">
+          <div class="week-thumb-placeholder">thumbnail</div>
+          <div class="week-preview-text">
+            <div class="week-preview-top">
+              <span class="week-number">Week 6</span>
+              <span class="week-date-inline">Mar 6, 2026</span>
+            </div>
+            <h3>Hack</h3>
+            <p class="week-short-desc">A project that modifies, augments, or redirects the purpose of an existing object or system.</p>
+            <div class="week-tags"><span>Arduino</span></div>
+          </div>
+        </div>
+        <button class="week-toggle" onclick="toggleCard(this)">View Details <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg></button>
+        <div class="week-details">
+          <div class="week-details-inner">
+            <div class="week-detail-left">
+              <h4>Project</h4>
+              <div class="week-main-media"><div class="week-media-placeholder">[ Main media ]</div></div>
+            </div>
+            <div class="week-detail-right">
+              <h4>Description</h4>
+              <p class="week-full-desc">This project hacks the most fundamental concept of our environment: silence. In most interactive art, you make noise to get a response. This project, however, hacks that expectation by making silence the active trigger for an alarm. It is an "Inversion Hack"—flipping the rules of cause and effect.</p>
+              <div class="week-process-label">Process</div>
+              <div class="week-process-grid">
+                <div class="process-img-placeholder">photo 1</div>
+                <div class="process-img-placeholder">photo 2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>&copy; 2026 Nayoung Kim</footer>
   </div>
 
-  <footer>&copy; 2026 Nayoung Kim</footer>
-
   <script>
-    // Fade in on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
+    // Fade in
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.15 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
 
-    // Toggle card expand + widen container
+    // Toggle
     function toggleCard(btn) {
-      const card = btn.closest('.week-card');
+      var card = btn.closest('.week-card');
       card.classList.toggle('expanded');
-      // Check if any card is expanded → widen container
-      const anyExpanded = document.querySelector('.week-card.expanded');
-      if (anyExpanded) {
-        document.body.classList.add('has-expanded');
-      } else {
-        document.body.classList.remove('has-expanded');
-      }
+      var any = document.querySelector('.week-card.expanded');
+      document.body.classList.toggle('has-expanded', !!any);
     }
 
-    // Lightbox for images
+    // Lightbox
     function openLightbox(img) {
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightbox-img');
-      lightboxImg.src = img.src;
-      lightbox.classList.add('active');
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('active');
       document.body.style.overflow = '';
     }
-    // Close with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+
+    // ══ BLOB ANIMATION: auto-drift + mouse reactive ══
+    (function() {
+      var blobs = document.querySelectorAll('.bg-blob');
+      var n = blobs.length;
+      var mx = 0, my = 0;
+      var px = [], py = [];
+      var autoX = [], autoY = [];
+      var ranges = [55, 45, 50, 38, 42];
+      var ease = [0.025, 0.02, 0.018, 0.015, 0.022];
+      var dirs = [1, -1, 1, -1, 1];
+      var speeds = [0.0003, 0.00025, 0.0002, 0.00035, 0.00028];
+      var radii = [120, 100, 90, 80, 70];
+
+      for (var i = 0; i < n; i++) {
+        px[i] = 0; py[i] = 0;
+        autoX[i] = Math.random() * Math.PI * 2;
+        autoY[i] = Math.random() * Math.PI * 2;
+      }
+
+      document.addEventListener('mousemove', function(e) {
+        mx = (e.clientX / window.innerWidth - 0.5) * 2;
+        my = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      var time = 0;
+      function tick() {
+        time++;
+        for (var i = 0; i < n; i++) {
+          // auto drift (always moving)
+          var ax = Math.sin(time * speeds[i] + autoX[i]) * radii[i];
+          var ay = Math.cos(time * speeds[i] * 0.7 + autoY[i]) * radii[i] * 0.8;
+
+          // mouse reactive
+          var mouseTargetX = mx * ranges[i] * dirs[i];
+          var mouseTargetY = my * ranges[i] * (i % 2 === 0 ? 1 : -1);
+
+          // combine: auto + mouse
+          var targetX = ax + mouseTargetX;
+          var targetY = ay + mouseTargetY;
+
+          px[i] += (targetX - px[i]) * ease[i];
+          py[i] += (targetY - py[i]) * ease[i];
+
+          blobs[i].style.transform = 'translate(' + px[i] + 'px,' + py[i] + 'px)';
+        }
+        requestAnimationFrame(tick);
+      }
+      tick();
+    })();
   </script>
 
 </body>
