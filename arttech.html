@@ -39,87 +39,41 @@
 
     /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; width: 100%;
+      position: fixed; top: 0; width: 100%;
       padding: 1.25rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       z-index: 100;
       background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
-    nav .logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--purple);
-      text-decoration: none;
-    }
+    nav .logo { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--purple); text-decoration: none; }
     nav .back-link {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      text-decoration: none; color: var(--muted); font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.3s;
+      display: flex; align-items: center; gap: 0.4rem;
     }
     nav .back-link:hover { color: var(--purple); }
     nav .back-link svg { width: 14px; height: 14px; }
 
     /* ── PAGE HEADER ── */
     .page-header {
-      padding: 10rem 3rem 4rem;
-      max-width: 920px;
-      margin: 0 auto;
-      text-align: center;
+      padding: 10rem 3rem 4rem; max-width: 920px; margin: 0 auto; text-align: center;
     }
     .page-header .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--purple);
-      margin-bottom: 0.75rem;
+      font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); margin-bottom: 0.75rem;
     }
-    .page-header h1 {
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
-      letter-spacing: -0.03em;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
+    .page-header h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: -0.03em; font-weight: 700; margin-bottom: 1rem; }
     .page-header h1 span {
       background: linear-gradient(135deg, var(--purple), var(--purple-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .page-header p {
-      font-size: 1rem;
-      color: var(--muted);
-      font-weight: 300;
-      line-height: 1.85;
-      max-width: 540px;
-      margin: 0 auto;
-    }
-    .divider-center {
-      width: 40px; height: 3px;
-      background: linear-gradient(90deg, var(--purple), var(--purple-light));
-      border-radius: 2px;
-      margin: 1.5rem auto 0;
-    }
+    .page-header p { font-size: 1rem; color: var(--muted); font-weight: 300; line-height: 1.85; max-width: 540px; margin: 0 auto; }
+    .divider-center { width: 40px; height: 3px; background: linear-gradient(90deg, var(--purple), var(--purple-light)); border-radius: 2px; margin: 1.5rem auto 0; }
 
     /* ── WEEKS CONTAINER ── */
-    .weeks-container {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 2rem 3rem 6rem;
-    }
+    .weeks-container { max-width: 760px; margin: 0 auto; padding: 2rem 3rem 6rem; }
 
     /* ── WEEK CARD ── */
     .week-card {
@@ -127,7 +81,7 @@
       backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 2rem;
+      overflow: hidden;
       margin-bottom: 1.5rem;
       transition: all 0.35s ease;
     }
@@ -135,62 +89,158 @@
       box-shadow: 0 12px 40px rgba(124, 92, 252, 0.06);
       border-color: rgba(124, 92, 252, 0.15);
     }
-    .week-card-header {
+
+    /* ── PREVIEW (always visible) ── */
+    .week-preview {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      min-height: 160px;
+    }
+    .week-thumb {
+      width: 100%;
+      height: 100%;
+      min-height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+    .week-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 160px;
+      background: linear-gradient(135deg, #f0eaff 0%, #e8dfff 100%);
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
+      justify-content: center;
+      color: var(--purple-light);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+    .week-preview-text {
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .week-preview-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
     }
     .week-number {
       font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
       color: #fff;
       background: linear-gradient(135deg, var(--purple), var(--purple-light));
-      padding: 0.35rem 0.8rem;
+      padding: 0.25rem 0.65rem;
       border-radius: 100px;
       white-space: nowrap;
     }
-    .week-card-header h3 {
-      font-size: 1.15rem;
-      font-weight: 600;
-    }
-    .week-date {
+    .week-date-inline {
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--muted);
-      margin-bottom: 0.75rem;
     }
-    .week-description {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 1.25rem;
+    .week-preview-text h3 {
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 0.35rem;
+    }
+    .week-preview-text .week-short-desc {
+      font-size: 0.84rem; color: var(--muted); line-height: 1.65; font-weight: 300;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .week-preview-text .week-tags {
+      margin-top: 0.6rem;
+      display: flex; flex-wrap: wrap; gap: 0.3rem;
+    }
+    .week-tags span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem; color: var(--purple);
+      border: 1px solid rgba(124, 92, 252, 0.2);
+      padding: 0.15rem 0.5rem; border-radius: 100px;
     }
 
-    /* ── MEDIA ── */
-    .week-media {
+    /* ── TOGGLE BUTTON ── */
+    .week-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      border-top: 1px solid var(--border);
+      background: rgba(124, 92, 252, 0.03);
+      color: var(--purple);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .week-toggle:hover {
+      background: rgba(124, 92, 252, 0.08);
+    }
+    .week-toggle svg {
+      width: 14px; height: 14px;
+      transition: transform 0.3s;
+    }
+    .week-card.expanded .week-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    /* ── DETAILS (hidden by default) ── */
+    .week-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+    .week-card.expanded .week-details {
+      max-height: 3000px;
+    }
+    .week-details-inner {
+      padding: 1.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .week-details-inner h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .week-full-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── MEDIA GALLERY ── */
+    .week-gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .week-gallery.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+    .week-gallery-item {
       border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 1rem;
       background: #f3f0fa;
     }
-    .week-media img {
-      width: 100%;
-      display: block;
-      border-radius: 10px;
+    .week-gallery-item img {
+      width: 100%; display: block; border-radius: 10px;
     }
-    .week-media iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border: none;
-      display: block;
-      border-radius: 10px;
+    .week-gallery-item iframe {
+      width: 100%; aspect-ratio: 16 / 9; border: none; display: block; border-radius: 10px;
     }
-    .week-media-placeholder {
+    .week-gallery-placeholder {
       width: 100%;
       aspect-ratio: 16 / 9;
       display: flex;
@@ -198,30 +248,23 @@
       justify-content: center;
       color: var(--purple-light);
       font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+    .week-gallery-caption {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 0.35rem;
+      font-weight: 300;
     }
 
-    /* ── TAGS & LINKS ── */
-    .week-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-    }
-    .week-tags span {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--purple);
-      border: 1px solid rgba(124, 92, 252, 0.2);
-      padding: 0.2rem 0.55rem;
-      border-radius: 100px;
-    }
+    /* ── EXTERNAL LINK ── */
     .week-link {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.8rem; font-weight: 600;
       color: var(--purple);
       text-decoration: none;
       margin-top: 0.75rem;
@@ -232,20 +275,13 @@
 
     /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
+      text-align: center; padding: 2rem;
+      font-family: 'Space Mono', monospace; font-size: 0.68rem;
+      color: var(--muted); border-top: 1px solid var(--border);
     }
 
     /* ── FADE-IN ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     /* ── RESPONSIVE ── */
@@ -253,8 +289,11 @@
       nav { padding: 1rem 1.5rem; }
       .page-header { padding: 8rem 1.5rem 3rem; }
       .weeks-container { padding: 2rem 1.5rem 4rem; }
-      .week-card { padding: 1.5rem; }
-      .week-card-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .week-preview { grid-template-columns: 1fr; }
+      .week-thumb, .week-thumb-placeholder { min-height: 180px; max-height: 220px; }
+      .week-preview-text { padding: 1.25rem; }
+      .week-details-inner { padding: 1.25rem; }
+      .week-gallery.two-col { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -282,184 +321,274 @@
   <!-- WEEKS -->
   <div class="weeks-container">
 
-    <!-- ─── WEEK 2 ─── -->
+    <!-- ══════════════════════════════════ -->
+    <!-- WEEK 2 -->
+    <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 2</span>
-        <h3>30 second film about ROMANTIC LOVE</h3>
+
+      <!-- PREVIEW (always visible) -->
+      <div class="week-preview">
+        <!-- THUMBNAIL: replace with <img src="images/week2-thumb.jpg" alt="..." class="week-thumb"> -->
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-preview-text">
+          <div class="week-preview-top">
+            <span class="week-number">Week 2</span>
+            <span class="week-date-inline">Jan 30, 2026</span>
+          </div>
+          <h3>30 Second Film about ROMANTIC LOVE</h3>
+          <p class="week-short-desc">What is love? A short film exploring romantic love through AI-generated voiceover and edited footage.</p>
+          <div class="week-tags">
+            <span>Final Cut X</span><span>ElevenLabs</span>
+          </div>
+        </div>
       </div>
-      <div class="week-date">Jan 30th, 2026</div>
-      <p class="week-description">
-        What is love?
-      </p>
-      <!-- IMAGE: replace src with your image path, e.g. images/week1.jpg -->
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
-        <!-- <img src="images/week1.jpg" alt="Week 1 project"> -->
+
+      <!-- TOGGLE BUTTON -->
+      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        View Details
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+      </button>
+
+      <!-- DETAILS (hidden until expanded) -->
+      <div class="week-details">
+        <div class="week-details-inner">
+          <h4>About this project</h4>
+          <p class="week-full-desc">
+            Write your full project description here. Explain the concept, process, challenges, and what you learned. You can write as much as you want — this section only appears when the user clicks "View Details."
+          </p>
+
+          <!-- GALLERY: add images, videos, or both -->
+          <div class="week-gallery">
+            <!-- Example image -->
+            <div class="week-gallery-item">
+              <div class="week-gallery-placeholder">[ Add image: images/week2-1.jpg ]</div>
+              <!-- <img src="images/week2-1.jpg" alt="Film still 1"> -->
+            </div>
+            <!-- Example video -->
+            <div class="week-gallery-item">
+              <div class="week-gallery-placeholder">[ Add video: youtube embed ]</div>
+              <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+            </div>
+          </div>
+
+          <!-- Optional: external link -->
+          <!--
+          <a href="https://your-url.com" target="_blank" class="week-link">
+            Watch Full Film
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+          </a>
+          -->
+        </div>
       </div>
-      <div class="week-tags">
-        <span>Final Cut X</span><span>ElevenLabs</span>
-      </div>
+
     </div>
 
-    <!-- ─── WEEK 3 ─── -->
+
+    <!-- ══════════════════════════════════ -->
+    <!-- WEEK 3 -->
+    <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 3</span>
-        <h3>Listen - What?</h3>
+
+      <div class="week-preview">
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-preview-text">
+          <div class="week-preview-top">
+            <span class="week-number">Week 3</span>
+            <span class="week-date-inline">Feb 13, 2026</span>
+          </div>
+          <h3>Listen - What?</h3>
+          <p class="week-short-desc">Brief one-two sentence description of the project goes here.</p>
+          <div class="week-tags">
+            <span>Final Cut X</span>
+          </div>
+        </div>
       </div>
-      <div class="week-date">Feb 13th, 2026</div>
-      <p class="week-description">
-        Brief description of the project.
-      </p>
-      <!-- VIDEO: replace VIDEO_ID with your YouTube video ID -->
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
-        <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+
+      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        View Details
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+      </button>
+
+      <div class="week-details">
+        <div class="week-details-inner">
+          <h4>About this project</h4>
+          <p class="week-full-desc">
+            Full description goes here.
+          </p>
+          <div class="week-gallery">
+            <div class="week-gallery-item">
+              <div class="week-gallery-placeholder">[ Add media ]</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="week-tags">
-        <span>Final Cut X</span>
-      </div>
+
     </div>
 
-    <!-- ─── WEEK 5 ─── -->
+
+    <!-- ══════════════════════════════════ -->
+    <!-- WEEK 5 -->
+    <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 5</span>
-        <h3>Computing Art</h3>
+
+      <div class="week-preview">
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-preview-text">
+          <div class="week-preview-top">
+            <span class="week-number">Week 5</span>
+            <span class="week-date-inline">Feb 27, 2026</span>
+          </div>
+          <h3>Computing Art</h3>
+          <p class="week-short-desc">Brief one-two sentence description of the project goes here.</p>
+          <div class="week-tags">
+            <span>Reality Capture</span><span>Blender</span><span>Unity</span>
+          </div>
+        </div>
       </div>
-      <div class="week-date">Feb 27th, 2026</div>
-      <p class="week-description">
-        Brief description of the project.
-      </p>
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+
+      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        View Details
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+      </button>
+
+      <div class="week-details">
+        <div class="week-details-inner">
+          <h4>About this project</h4>
+          <p class="week-full-desc">
+            Full description goes here.
+          </p>
+          <!-- Use two-col class for side-by-side images -->
+          <div class="week-gallery two-col">
+            <div class="week-gallery-item">
+              <div class="week-gallery-placeholder">[ Image 1 ]</div>
+            </div>
+            <div class="week-gallery-item">
+              <div class="week-gallery-placeholder">[ Image 2 ]</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- LINK example: uncomment and add your URL -->
-      <!--
-      <a href="https://your-project-url.com" target="_blank" class="week-link">
-        View Live Demo
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-      </a>
-      -->
-      <div class="week-tags">
-        <span>Reality Capture</span><span>Blender</span><span>Unity</span>
-      </div>
+
     </div>
 
-    <!-- ─── WEEK 6 ─── -->
+
+    <!-- ══════════════════════════════════ -->
+    <!-- WEEK 6 -->
+    <!-- ══════════════════════════════════ -->
     <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 6</span>
-        <h3>Hack</h3>
+
+      <div class="week-preview">
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-preview-text">
+          <div class="week-preview-top">
+            <span class="week-number">Week 6</span>
+            <span class="week-date-inline">Mar 6, 2026</span>
+          </div>
+          <h3>Hack</h3>
+          <p class="week-short-desc">Brief one-two sentence description of the project goes here.</p>
+          <div class="week-tags">
+            <span>Arduino</span>
+          </div>
+        </div>
       </div>
-      <div class="week-date">March 6th, 2026</div>
-      <p class="week-description">
-        Brief description of the project.
-      </p>
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
+
+      <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        View Details
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+      </button>
+
+      <div class="week-details">
+        <div class="week-details-inner">
+          <h4>About this project</h4>
+          <p class="week-full-desc">
+            Full description goes here.
+          </p>
+          <div class="week-gallery">
+            <div class="week-gallery-item">
+              <div class="week-gallery-placeholder">[ Add media ]</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="week-tags">
-        <span>Arduino</span>
-      </div>
+
     </div>
 
-    <!-- ─── WEEK 5 ─── -->
-    <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 5</span>
-        <h3>Project Title Here</h3>
-      </div>
-      <div class="week-date">February 2026</div>
-      <p class="week-description">
-        Brief description of the project.
-      </p>
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
-      </div>
-      <div class="week-tags">
-        <span>Tag</span><span>Tag</span>
-      </div>
-    </div>
-
-    <!-- ─── WEEK 6 ─── -->
-    <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 6</span>
-        <h3>Project Title Here</h3>
-      </div>
-      <div class="week-date">March 2026</div>
-      <p class="week-description">
-        Brief description of the project.
-      </p>
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
-      </div>
-      <div class="week-tags">
-        <span>Tag</span><span>Tag</span>
-      </div>
-    </div>
-
-    <!-- ─── WEEK 7 ─── -->
-    <div class="week-card fade-in">
-      <div class="week-card-header">
-        <span class="week-number">Week 7</span>
-        <h3>Project Title Here</h3>
-      </div>
-      <div class="week-date">March 2026</div>
-      <p class="week-description">
-        Brief description of the project.
-      </p>
-      <div class="week-media">
-        <div class="week-media-placeholder">[ Replace with image or video ]</div>
-      </div>
-      <div class="week-tags">
-        <span>Tag</span><span>Tag</span>
-      </div>
-    </div>
 
     <!--
-      ═══════════════════════════════════════
-      HOW TO ADD MORE WEEKS
-      ═══════════════════════════════════════
+      ═══════════════════════════════════════════════════════
+      HOW TO ADD A NEW WEEK — COPY THIS TEMPLATE
+      ═══════════════════════════════════════════════════════
 
-      Copy any week-card block above and update:
-      1. Week number
-      2. Project title
-      3. Date
-      4. Description
-      5. Media (pick one):
+      <div class="week-card fade-in">
 
-         FOR AN IMAGE:
-         <div class="week-media">
-           <img src="images/week8.jpg" alt="Week 8 project">
-         </div>
+        <div class="week-preview">
+          THUMBNAIL — pick one:
+            Image:       <img src="images/weekX-thumb.jpg" alt="..." class="week-thumb">
+            Placeholder: <div class="week-thumb-placeholder">thumbnail</div>
 
-         FOR A YOUTUBE VIDEO:
-         <div class="week-media">
-           <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
-         </div>
+          <div class="week-preview-text">
+            <div class="week-preview-top">
+              <span class="week-number">Week X</span>
+              <span class="week-date-inline">Month Day, 2026</span>
+            </div>
+            <h3>Project Title</h3>
+            <p class="week-short-desc">One-two sentence description.</p>
+            <div class="week-tags">
+              <span>Tool</span><span>Tool</span>
+            </div>
+          </div>
+        </div>
 
-         FOR A VIMEO VIDEO:
-         <div class="week-media">
-           <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" allowfullscreen></iframe>
-         </div>
+        <button class="week-toggle" onclick="this.closest('.week-card').classList.toggle('expanded')">
+          View Details
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+        </button>
 
-         FOR AN EXTERNAL LINK:
-         <a href="https://your-url.com" target="_blank" class="week-link">
-           View Project
-           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
-         </a>
+        <div class="week-details">
+          <div class="week-details-inner">
+            <h4>About this project</h4>
+            <p class="week-full-desc">
+              Full description here.
+            </p>
 
-      6. Update the tags
+            GALLERY — full width:
+            <div class="week-gallery">
+              <div class="week-gallery-item">
+                <img src="images/weekX-1.jpg" alt="...">
+              </div>
+            </div>
 
-      TO UPLOAD IMAGES:
-      1. In your GitHub repo, click Add file > Create new file
-      2. Type: images/.gitkeep  (this creates the folder)
-      3. Commit, then navigate into the images folder
-      4. Upload your JPGs/PNGs there
-      5. Reference them as: images/week1.jpg
+            GALLERY — two columns:
+            <div class="week-gallery two-col">
+              <div class="week-gallery-item">
+                <img src="images/weekX-1.jpg" alt="...">
+              </div>
+              <div class="week-gallery-item">
+                <img src="images/weekX-2.jpg" alt="...">
+              </div>
+            </div>
+
+            VIDEO:
+            <div class="week-gallery">
+              <div class="week-gallery-item">
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            EXTERNAL LINK:
+            <a href="https://url.com" target="_blank" class="week-link">
+              View Project
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      IMAGE UPLOADS:
+      1. In your repo: Add file > Create new file > type images/.gitkeep > Commit
+      2. Navigate into images folder > Upload files
+      3. Reference as: images/filename.jpg
     -->
 
   </div>
