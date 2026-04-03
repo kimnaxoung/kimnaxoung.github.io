@@ -1,450 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Water Receipt</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art*Tech — Nayoung Kim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --ink: #0f0f1a;
+      --white: #ffffff;
+      --muted: #888;
+      --light-muted: #bbb;
+      --border: #eee;
+      --navy: #1b1464;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      min-height: 100vh;
-      background-color: #0a0a0a;
-      color: #e8e4dc;
-      font-family: 'Courier New', Courier, monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      position: relative;
-      overflow-x: hidden;
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Sora', sans-serif; color: var(--ink); line-height: 1.7; background: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', 'Times New Roman', Georgia, serif; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 100; background: rgba(255,255,255,0.92); backdrop-filter: blur(16px);
     }
-    .bg-stain {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at 50% 80%, rgba(56,132,163,0.04) 0%, transparent 60%);
-      pointer-events: none;
+    nav .logo { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--ink); text-decoration: none; font-weight: 700; }
+    nav .back-link {
+      text-decoration: none; color: var(--ink); font-size: 0.78rem; font-weight: 400;
+      opacity: 0.45; transition: opacity 0.3s;
+      display: flex; align-items: center; gap: 0.4rem;
     }
-    .title { text-align: center; margin-bottom: 30px; position: relative; z-index: 1; }
-    .title h1 {
-      font-size: 13px; letter-spacing: 6px; text-transform: uppercase;
-      color: #666; font-weight: 400;
+    nav .back-link:hover { opacity: 1; }
+    nav .back-link svg { width: 14px; height: 14px; }
+
+    /* PAGE HEADER */
+    .page-header { padding: 9rem 3rem 2.5rem; max-width: 800px; margin: 0 auto; }
+    .page-header .label {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
     }
-    .title .sub { font-size: 11px; color: #444; margin-top: 8px; letter-spacing: 2px; }
-    .main {
-      display: flex; gap: 40px; max-width: 900px; width: 100%;
-      justify-content: center; align-items: flex-start; flex-wrap: wrap;
-      position: relative; z-index: 1;
+    .page-header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 0.75rem; }
+    .page-header p { font-size: 0.95rem; color: var(--muted); font-weight: 300; line-height: 1.85; max-width: 520px; }
+    .thin-divider { width: 100%; height: 1px; background: var(--border); margin: 2rem auto 0; max-width: 1100px; }
+
+    /* WEEKS */
+    .weeks-container { max-width: 1100px; margin: 0 auto; padding: 2rem 3rem 6rem; }
+
+    /* WEEK CARD */
+    .week-card { border-bottom: 1px solid var(--border); padding: 2.5rem 0; }
+    .week-card:last-of-type { border-bottom: none; }
+
+    /* PREVIEW ROW */
+    .week-preview {
+      display: grid; grid-template-columns: 200px 1fr auto;
+      gap: 1.5rem; align-items: center; cursor: pointer; transition: opacity 0.3s;
     }
-    .glass-section {
-      display: flex; flex-direction: column; align-items: center;
-      min-width: 200px; position: sticky; top: 20px;
+    .week-preview:hover { opacity: 0.65; }
+    .week-thumb { width: 200px; height: 130px; object-fit: cover; display: block; border-radius: 4px; }
+    .week-thumb-placeholder {
+      width: 200px; height: 130px;
+      background: linear-gradient(135deg, #f5f3ff, #ede8ff);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--light-muted); font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; border-radius: 4px;
     }
-    .glass-label {
-      font-size: 10px; letter-spacing: 3px; color: #555;
-      margin-bottom: 16px; text-transform: uppercase;
+    .week-info h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .week-info .week-meta {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--light-muted);
+      margin-bottom: 0.35rem;
     }
-    .glass-container { position: relative; width: 120px; height: 220px; }
-    .glass-outline {
-      position: absolute; bottom: 0; left: 10px; right: 10px; height: 200px;
-      border: 1px solid rgba(255,255,255,0.15); border-top: none;
-      border-radius: 0 0 4px 4px; overflow: hidden;
+    .week-info p {
+      font-size: 0.84rem; color: var(--muted); font-weight: 300; line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .water-fill {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      transition: height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    .week-info .week-tags { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .week-tags span {
+      font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--muted);
+      border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 100px;
     }
-    .water-surface {
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(120,200,230,0.4), transparent);
-      animation: shimmer 3s ease-in-out infinite;
+    .week-arrow { font-size: 1.2rem; color: var(--light-muted); transition: transform 0.3s; }
+    .week-card.expanded .week-arrow { transform: rotate(90deg); }
+
+    /* DETAILS */
+    .week-details { max-height: 0; overflow: hidden; transition: max-height 0.6s ease; }
+    .week-card.expanded .week-details { max-height: 5000px; }
+    .week-details-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2.5rem; padding: 2rem 0 1rem;
     }
-    .measure-line {
-      position: absolute; left: 0; right: 0;
-      border-top: 1px dashed rgba(255,255,255,0.06);
+
+    /* Left: media */
+    .detail-media-main { border-radius: 4px; overflow: hidden; background: #f5f3ff; margin-bottom: 1rem; }
+    .detail-media-main img { width: 100%; display: block; cursor: pointer; }
+    .detail-media-main iframe { width: 100%; aspect-ratio: 16 / 9; border: none; display: block; }
+    .detail-media-main video { width: 100%; display: block; }
+    .detail-media-main audio { width: 100%; }
+    .media-placeholder {
+      width: 100%; aspect-ratio: 16 / 9;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--light-muted); font-family: 'Space Mono', monospace; font-size: 0.72rem;
     }
-    .drip {
-      position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
-      width: 4px; height: 8px; border-radius: 50%;
-      background-color: rgba(56,163,193,0.5);
-      animation: drip 1s ease-in forwards;
+    .detail-thumbstrip { display: flex; gap: 6px; flex-wrap: wrap; }
+    .detail-thumbstrip img {
+      width: 70px; height: 50px; object-fit: cover; border-radius: 3px;
+      cursor: pointer; opacity: 0.6; transition: opacity 0.3s;
     }
-    .water-amount {
-      margin-top: 16px; text-align: center;
+    .detail-thumbstrip img:hover { opacity: 1; }
+    .thumb-placeholder { width: 70px; height: 50px; border-radius: 3px; background: #f0eaff; }
+
+    /* Right: description */
+    .detail-desc h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; }
+    .detail-desc p { font-size: 0.88rem; color: var(--muted); line-height: 1.9; font-weight: 300; margin-bottom: 1.5rem; }
+    .detail-desc .process-label {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--light-muted);
+      margin-bottom: 0.6rem;
     }
-    .water-amount .num {
-      font-size: 28px; font-weight: bold; color: rgba(56,163,193,0.8); line-height: 1;
+    .detail-process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .detail-process-grid img {
+      width: 100%; border-radius: 3px; cursor: pointer; transition: transform 0.2s;
     }
-    .water-amount .num.empty { color: #c44; }
-    .water-amount .unit { font-size: 12px; color: #555; }
-    .water-amount .label { font-size: 9px; color: #444; margin-top: 4px; }
-    .empty-msg {
-      margin-top: 20px; padding: 12px 16px;
-      border: 1px solid rgba(196,68,68,0.3); color: #c44;
-      font-size: 10px; letter-spacing: 2px; text-align: center;
-      text-transform: uppercase; line-height: 1.6;
+    .detail-process-grid img:hover { transform: scale(1.02); }
+    .process-ph { width: 100%; aspect-ratio: 4/3; border-radius: 3px; background: #f5f3ff; }
+
+    .week-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--navy);
+      text-decoration: none; margin-top: 0.75rem; transition: opacity 0.3s;
     }
-    .empty-msg .sub { color: #666; font-size: 9px; }
-    .context-stats {
-      margin-top: 24px; font-size: 9px; color: #444;
-      text-align: center; line-height: 2; max-width: 180px;
+    .week-link:hover { opacity: 0.6; }
+    .week-link svg { width: 14px; height: 14px; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.88);
+      z-index: 9999; align-items: center; justify-content: center; cursor: zoom-out;
     }
-    .receipt-section { flex: 1; max-width: 380px; min-width: 300px; }
-    .receipt-paper {
-      background-color: #f5f0e8; color: #1a1a1a;
-      padding: 24px 20px; font-family: 'Courier New', monospace;
-      font-size: 11px; min-height: 300px; position: relative;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 4px; }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: none; border: none; color: #fff; font-size: 2rem;
+      cursor: pointer; opacity: 0.6; transition: opacity 0.3s;
     }
-    .receipt-header { text-align: center; margin-bottom: 16px; }
-    .receipt-header .title-text { font-size: 14px; font-weight: bold; letter-spacing: 3px; }
-    .receipt-header .subtitle { font-size: 9px; color: #888; margin-top: 4px; }
-    .receipt-header .divider { border-bottom: 1px dashed #ccc; margin: 12px 0; }
-    .receipt-header .meta { font-size: 9px; color: #999; }
-    .col-headers {
-      display: flex; justify-content: space-between; font-size: 9px;
-      color: #999; border-bottom: 1px solid #ddd;
-      padding-bottom: 4px; margin-bottom: 8px;
+    .lightbox-close:hover { opacity: 1; }
+
+    footer {
+      text-align: center; padding: 3rem 2rem;
+      font-size: 0.72rem; color: var(--light-muted); border-top: 1px solid var(--border);
     }
-    .receipt-item {
-      margin-bottom: 10px; padding-bottom: 10px;
-      border-bottom: 1px dotted #ddd; animation: fadeIn 0.5s ease-in;
-    }
-    .receipt-item .row { display: flex; justify-content: space-between; align-items: flex-start; }
-    .receipt-item .prompt-text { font-size: 10px; color: #333; }
-    .receipt-item .char-info { font-size: 8px; color: #aaa; margin-top: 2px; }
-    .receipt-item .water-val { width: 60px; text-align: right; font-size: 11px; font-weight: bold; color: #1a6b7a; }
-    .receipt-item .energy-val { width: 50px; text-align: right; font-size: 10px; color: #666; }
-    .empty-state {
-      text-align: center; color: #bbb; font-size: 10px;
-      padding: 40px 20px; line-height: 2;
-    }
-    .totals { margin-top: 12px; }
-    .totals .total-row {
-      border-top: 2px solid #333; padding-top: 8px;
-      display: flex; justify-content: space-between;
-      font-weight: bold; font-size: 12px;
-    }
-    .totals .total-water { color: #1a6b7a; }
-    .totals .sub-row {
-      display: flex; justify-content: space-between;
-      font-size: 10px; color: #888; margin-top: 4px;
-    }
-    .receipt-footer {
-      margin-top: 20px; padding-top: 12px; border-top: 1px dashed #ccc;
-      text-align: center; font-size: 8px; color: #aaa; line-height: 1.8;
-    }
-    .receipt-footer .punchline { margin-top: 8px; font-size: 9px; color: #999; }
-    .input-area { margin-top: 20px; }
-    .input-area textarea {
-      width: 100%; min-height: 60px; background-color: #111;
-      border: 1px solid #333; color: #e8e4dc;
-      font-family: 'Courier New', monospace; font-size: 12px;
-      padding: 12px; resize: vertical; outline: none;
-    }
-    .input-area textarea:focus { border-color: rgba(56,163,193,0.3); }
-    .input-area textarea::placeholder { color: #333; }
-    .input-controls {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-top: 8px;
-    }
-    .input-controls .estimate { font-size: 9px; color: #444; }
-    .input-controls button {
-      background-color: transparent; border: 1px solid #444;
-      color: #e8e4dc; font-family: 'Courier New', monospace;
-      font-size: 10px; letter-spacing: 2px; padding: 8px 20px;
-      cursor: pointer; text-transform: uppercase; transition: all 0.2s;
-    }
-    .input-controls button:hover:not(:disabled) {
-      border-color: rgba(56,163,193,0.5); color: rgba(56,163,193,0.8);
-    }
-    .input-controls button:disabled { color: #333; cursor: default; }
-    @keyframes shimmer {
-      0%, 100% { opacity: 0.3; transform: translateX(-10px); }
-      50% { opacity: 0.8; transform: translateX(10px); }
-    }
-    @keyframes drip {
-      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 700px) {
-      .main { flex-direction: column; align-items: center; }
-      .glass-section { position: static; }
-      .receipt-section { min-width: unset; width: 100%; }
+
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) { .week-details-inner { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-header { padding: 7rem 1.5rem 2rem; }
+      .weeks-container { padding: 1rem 1.5rem 4rem; }
+      .week-preview { grid-template-columns: 1fr; }
+      .week-thumb, .week-thumb-placeholder { width: 100%; height: 180px; }
+      .week-details-inner { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="bg-stain"></div>
- 
-  <div class="title">
-    <h1>Water Receipt</h1>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="">
   </div>
- 
-  <div class="main">
-    <!-- Glass -->
-    <div class="glass-section">
-      <div class="glass-label">250ml of water</div>
-      <div class="glass-container">
-        <div class="glass-outline">
-          <div class="water-fill" id="waterFill">
-            <div class="water-surface"></div>
-          </div>
-          <div class="measure-line" style="bottom:25%"></div>
-          <div class="measure-line" style="bottom:50%"></div>
-          <div class="measure-line" style="bottom:75%"></div>
-        </div>
-        <div class="drip" id="dripEl" style="display:none"></div>
-      </div>
-      <div class="water-amount">
-        <div class="num" id="remainNum">250<span class="unit">ml</span></div>
-        <div class="label">REMAINING</div>
-      </div>
-      <div class="empty-msg" id="emptyMsg" style="display:none">
-        Empty.<br>
-        <span class="sub" id="emptyCount"></span>
-      </div>
-      <div class="context-stats" id="contextStats" style="display:none">
-        <div id="statWater"></div>
-        <div id="statEnergy"></div>
-        <div id="statCO2"></div>
-      </div>
-    </div>
- 
-    <!-- Receipt -->
-    <div class="receipt-section">
-      <div class="receipt-paper">
-        <div class="receipt-header">
-          <div class="title-text">WATER RECEIPT</div>
-          <div class="subtitle">AI ENVIRONMENTAL COST TRACKER</div>
-          <div class="divider"></div>
-          <div class="meta" id="receiptDate"></div>
-          <div class="meta" id="receiptSession"></div>
-        </div>
-        <div class="col-headers" id="colHeaders" style="display:none">
-          <span style="flex:1">PROMPT</span>
-          <span style="width:60px;text-align:right">WATER</span>
-          <span style="width:50px;text-align:right">ENERGY</span>
-        </div>
-        <div id="receiptItems">
-          <div class="empty-state">No prompts yet.<br>Type below to begin.<br><span style="font-size:16px">↓</span></div>
-        </div>
-        <div class="totals" id="totalsSection" style="display:none">
-          <div class="total-row">
-            <span id="totalLabel">TOTAL (0 prompts)</span>
-            <span class="total-water" id="totalWater">0.0ml</span>
-          </div>
-          <div class="sub-row">
-            <span>ELECTRICITY</span>
-            <span id="totalEnergy">0.00 Wh</span>
-          </div>
-          <div class="sub-row">
-            <span>CO₂ EMISSIONS</span>
-            <span id="totalCO2">0.00g</span>
-          </div>
-        </div>
-        <div class="receipt-footer">
-          <div>* estimated environmental cost</div>
-          <div class="punchline">This receipt is free.<br>The water was not.</div>
-        </div>
-      </div>
- 
-      <!-- Input -->
-      <div class="input-area">
-        <textarea id="promptInput" placeholder=""></textarea>
-        <div class="input-controls">
-          <span class="estimate" id="estimate"></span>
-          <button id="sendBtn" disabled>Send</button>
-        </div>
-      </div>
-    </div>
+
+  <nav>
+    <a href="index.html" class="logo">Nayoung Kim</a>
+    <a href="index.html" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+      Back
+    </a>
+  </nav>
+
+  <div class="page-header">
+    <div class="label">Cornell · Spring 2026</div>
+    <h1>Art*Tech</h1>
+    <p>Weekly projects exploring creative intersections of art, technology, and interaction.</p>
   </div>
- 
- 
- 
-  <script>
-    const WATER_PER_CHAR = 0.15;
-    const ENERGY_PER_CHAR = 0.005;
-    const CO2_PER_CHAR = 0.001;
-    const GLASS_ML = 250;
- 
-    const PLACEHOLDERS = [
-      "Write me a poem about love...",
-      "Explain quantum physics simply...",
-      "Generate a business plan for...",
-      "Create a recipe for dinner...",
-      "Help me write an essay about...",
-      "What is the meaning of life...",
-      "Summarize this article for me...",
-      "Draft an email to my boss...",
-    ];
- 
-    let totalWater = 0, totalEnergy = 0, totalCO2 = 0, promptCount = 0;
-    let waterLevel = 100;
-    let isProcessing = false;
-    let phIdx = 0, chIdx = 0, items = [];
- 
-    const $ = (id) => document.getElementById(id);
-    const input = $("promptInput");
-    const sendBtn = $("sendBtn");
- 
-    // Init receipt date
-    const now = new Date();
-    $("receiptDate").textContent = now.toLocaleDateString() + " · " + now.toLocaleTimeString();
-    $("receiptSession").textContent = "SESSION #" + String(Date.now()).slice(-6);
- 
-    // Placeholder typing
-    function typePlaceholder() {
-      const prompt = PLACEHOLDERS[phIdx];
-      if (chIdx <= prompt.length) {
-        input.placeholder = prompt.slice(0, chIdx) + "│";
-        chIdx++;
-        setTimeout(typePlaceholder, 60);
-      } else {
-        setTimeout(() => {
-          chIdx = 0;
-          phIdx = (phIdx + 1) % PLACEHOLDERS.length;
-          typePlaceholder();
-        }, 2500);
-      }
-    }
-    typePlaceholder();
- 
-    // Input events
-    input.addEventListener("input", () => {
-      const len = input.value.length;
-      $("estimate").textContent = len > 0 ? `≈${(len * WATER_PER_CHAR * 5).toFixed(1)}ml estimated` : "";
-      sendBtn.disabled = !input.value.trim() || isProcessing;
-    });
- 
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submitPrompt(); }
-    });
- 
-    sendBtn.addEventListener("click", submitPrompt);
- 
-    function submitPrompt() {
-      const text = input.value.trim();
-      if (!text || isProcessing) return;
-      isProcessing = true;
-      sendBtn.disabled = true;
-      sendBtn.textContent = "Processing...";
- 
-      const chars = text.length;
-      const mult = 3 + Math.random() * 4;
-      const responseChars = Math.floor(chars * mult);
-      const w = (chars + responseChars) * WATER_PER_CHAR;
-      const e = (chars + responseChars) * ENERGY_PER_CHAR;
-      const c = (chars + responseChars) * CO2_PER_CHAR;
- 
-      // Drip animation
-      const drip = $("dripEl");
-      drip.style.display = "block";
-      drip.style.animation = "none";
-      drip.offsetHeight;
-      drip.style.animation = "drip 1s ease-in forwards";
- 
-      setTimeout(() => {
-        drip.style.display = "none";
- 
-        promptCount++;
-        totalWater += w;
-        totalEnergy += e;
-        totalCO2 += c;
-        waterLevel = Math.max(0, 100 - (totalWater / GLASS_ML) * 100);
- 
-        // Update glass with color shift
-        const fill = $("waterFill");
-        fill.style.height = waterLevel + "%";
-        
-        // Color shifts: blue (100%) → murky teal (60%) → amber (30%) → red (0%)
-        let topR, topG, topB, topA, botR, botG, botB, botA;
-        if (waterLevel > 60) {
-          // Clean blue
-          const t = (waterLevel - 60) / 40;
-          topR = 56; topG = 163; topB = 193; topA = 0.15 + t * 0.5;
-          botR = 30; botG = 100; botB = 140; botA = 0.25 + t * 0.5;
-        } else if (waterLevel > 30) {
-          // Murky teal → amber
-          const t = (waterLevel - 30) / 30;
-          topR = Math.round(56 + (1 - t) * 140); topG = Math.round(163 - (1 - t) * 100); topB = Math.round(193 - (1 - t) * 150); topA = 0.5;
-          botR = Math.round(30 + (1 - t) * 120); botG = Math.round(100 - (1 - t) * 50); botB = Math.round(140 - (1 - t) * 110); botA = 0.6;
-        } else {
-          // Amber → deep red
-          const t = waterLevel / 30;
-          topR = Math.round(196 + (1 - t) * 40); topG = Math.round(63 - (1 - t) * 30); topB = Math.round(43 - (1 - t) * 20); topA = 0.6;
-          botR = Math.round(150 + (1 - t) * 50); botG = Math.round(50 - (1 - t) * 30); botB = Math.round(30 - (1 - t) * 15); botA = 0.75;
-        }
-        fill.style.background = `linear-gradient(180deg, rgba(${topR},${topG},${topB},${topA}) 0%, rgba(${botR},${botG},${botB},${botA}) 100%)`;
- 
-        // Update remaining
-        const remain = Math.max(0, (waterLevel / 100) * GLASS_ML);
-        const numEl = $("remainNum");
-        numEl.innerHTML = remain.toFixed(0) + '<span class="unit">ml</span>';
-        // Match number color to water
-        if (remain <= 0) { numEl.style.color = "#c44"; }
-        else if (waterLevel > 60) { numEl.style.color = "rgba(56,163,193,0.8)"; }
-        else if (waterLevel > 30) { numEl.style.color = "rgba(196,130,43,0.8)"; }
-        else { numEl.style.color = "rgba(196,63,43,0.8)"; }
- 
-        // Empty message
-        if (remain <= 0) {
-          $("emptyMsg").style.display = "block";
-          $("emptyCount").textContent = `${promptCount} prompt${promptCount !== 1 ? "s" : ""}.`;
-        }
- 
-        // Context stats
-        $("contextStats").style.display = "block";
-        $("statWater").textContent = `≈ ${totalWater >= 1000 ? (totalWater / 1000).toFixed(2) + "L" : totalWater.toFixed(1) + "ml"} consumed`;
-        $("statEnergy").textContent = `≈ ${totalEnergy.toFixed(2)} Wh electricity`;
-        $("statCO2").textContent = `≈ ${totalCO2.toFixed(2)}g CO₂`;
- 
-        // Add receipt item
-        const truncated = text.slice(0, 40) + (text.length > 40 ? "..." : "");
-        if (promptCount === 1) {
-          $("receiptItems").innerHTML = "";
-          $("colHeaders").style.display = "flex";
-        }
- 
-        const itemDiv = document.createElement("div");
-        itemDiv.className = "receipt-item";
-        itemDiv.innerHTML = `
-          <div class="row">
-            <div style="flex:1;padding-right:8px">
-              <div class="prompt-text">#${promptCount} "${truncated}"</div>
-              <div class="char-info">${chars} chars in → ${responseChars} chars out</div>
+  <div class="thin-divider"></div>
+
+  <div class="weeks-container">
+
+    <!-- ═══ WEEK 2 ═══ -->
+    <div class="week-card fade-in">
+      <div class="week-preview" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        <!-- <img src="images/week2-thumb.jpg" alt="..." class="week-thumb"> -->
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-info">
+          <div class="week-meta">Week 2 · Jan 30, 2026</div>
+          <h3>30 Second Film about ROMANTIC LOVE</h3>
+          <p>What is love? A 30-second film exploring romantic love that features a clear epiphany or emotional transition.</p>
+          <div class="week-tags"><span>Final Cut X</span><span>ElevenLabs</span></div>
+        </div>
+        <div class="week-arrow">→</div>
+      </div>
+      <div class="week-details">
+        <div class="week-details-inner">
+          <div class="detail-media">
+            <div class="detail-media-main">
+              <div class="media-placeholder">[ video / image ]</div>
+              <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
             </div>
-            <div class="water-val">${w.toFixed(1)}ml</div>
-            <div class="energy-val">${e.toFixed(1)}Wh</div>
-          </div>`;
-        $("receiptItems").appendChild(itemDiv);
- 
-        // Update totals
-        $("totalsSection").style.display = "block";
-        $("totalLabel").textContent = `TOTAL (${promptCount} prompt${promptCount !== 1 ? "s" : ""})`;
-        $("totalWater").textContent = totalWater.toFixed(1) + "ml";
-        $("totalEnergy").textContent = totalEnergy.toFixed(2) + " Wh";
-        $("totalCO2").textContent = totalCO2.toFixed(2) + "g";
- 
-        // Scroll receipt
-        itemDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
- 
-        // Reset
-        input.value = "";
-        $("estimate").textContent = "";
-        isProcessing = false;
-        sendBtn.textContent = "Send";
-        sendBtn.disabled = true;
-        input.focus();
-      }, 1200);
+            <div class="detail-thumbstrip">
+              <div class="thumb-placeholder"></div>
+              <div class="thumb-placeholder"></div>
+              <div class="thumb-placeholder"></div>
+              <div class="thumb-placeholder"></div>
+            </div>
+          </div>
+          <div class="detail-desc">
+            <h4>30 Second Film about ROMANTIC LOVE</h4>
+            <p>This project explores the paradox of human affection through the lens of color and time. It captures the irony of a thousand days of romantic bond collapsing in just three minutes, shifting the world from a saturated, vibrant landscape into a colorless world. By utilizing a seamless loop, the project illustrates our inevitable return to love, how we knowingly step back into the "coincidence" of a new encounter despite the certain grief that follows. It is a visual testament to the resilient human will to find color again, even after the world turns gray.</p>
+            <div class="process-label">Process</div>
+            <div class="detail-process-grid">
+              <!-- <img src="images/week2-p1.jpg" alt="" onclick="openLightbox(this)"> -->
+              <div class="process-ph"></div>
+              <div class="process-ph"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WEEK 3 ═══ -->
+    <div class="week-card fade-in">
+      <div class="week-preview" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-info">
+          <div class="week-meta">Week 3 · Feb 13, 2026</div>
+          <h3>Listen - What?</h3>
+          <p>Abstract audio composition using electronic or electromechanical sources that avoids traditional narrative or musical structures.</p>
+          <div class="week-tags"><span>Final Cut X</span></div>
+        </div>
+        <div class="week-arrow">→</div>
+      </div>
+      <div class="week-details">
+        <div class="week-details-inner">
+          <div class="detail-media">
+            <div class="detail-media-main">
+              <div class="media-placeholder">[ audio / video ]</div>
+              <!-- <audio controls style="width:100%;"><source src="media/week3.mp3" type="audio/mpeg"></audio> -->
+            </div>
+          </div>
+          <div class="detail-desc">
+            <h4>Phase Transition of Snow</h4>
+            <p>This project explores the concept of Phase Transition by sonically mapping the physical transformation of snow from a solid to a liquid state through a series of textured stepping sounds. Drawing on Trevor Pinch's "Sculpting Sound" framework, the narrative begins with the high-frequency, crisp "crunch" of dry snow, which gradually dissolves into the dense, low-frequency "slush" of melting ice. To provide a cohesive narrative arc, a recording of a bus stop at 10 PM serves as the "Sonic Glue," grounding the abstract transitions in a familiar urban environment. The piece culminates in a surreal departure, where the everyday sound of a bus arrival is transformed using Space Designer and volume envelopes into a spaceship-like sonic event, shifting the listener from a mundane wintry walk into an evocative, otherworldly space.</p>
+            <div class="process-label">Process</div>
+            <div class="detail-process-grid">
+              <div class="process-ph"></div>
+              <div class="process-ph"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WEEK 5 ═══ -->
+    <div class="week-card fade-in">
+      <div class="week-preview" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-info">
+          <div class="week-meta">Week 5 · Feb 27, 2026</div>
+          <h3>Computing Art</h3>
+          <p>Examining the collision between "authentically human" elements through computational art.</p>
+          <div class="week-tags"><span>Reality Capture</span><span>Blender</span><span>Unity</span></div>
+        </div>
+        <div class="week-arrow">→</div>
+      </div>
+      <div class="week-details">
+        <div class="week-details-inner">
+          <div class="detail-media">
+            <div class="detail-media-main">
+              <div class="media-placeholder">[ media ]</div>
+            </div>
+            <div class="detail-thumbstrip">
+              <div class="thumb-placeholder"></div>
+              <div class="thumb-placeholder"></div>
+              <div class="thumb-placeholder"></div>
+            </div>
+          </div>
+          <div class="detail-desc">
+            <h4>Computing Art</h4>
+            <p>The inspiration for this project began with the observation of a discarded children's slide, an object that represents a profound social and emotional contradiction. While a slide is a universal symbol of childhood joy, play, and physical memory, its state as "trash" reveals a moment of social abandonment and urban neglect. I wanted to explore the tension between this "authentically human" relic—carrying the physical traces of wear, dirt, and history—and the cold, mathematical nature of computation. By digitizing this abandoned object, the project enacts a conversion of lived material reality into a computable form, questioning whether digital preservation can ever truly recover the "aura" of the original experience.</p>
+            <div class="process-label">Process</div>
+            <div class="detail-process-grid">
+              <div class="process-ph"></div>
+              <div class="process-ph"></div>
+              <div class="process-ph"></div>
+              <div class="process-ph"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WEEK 6 ═══ -->
+    <div class="week-card fade-in">
+      <div class="week-preview" onclick="this.closest('.week-card').classList.toggle('expanded')">
+        <div class="week-thumb-placeholder">thumbnail</div>
+        <div class="week-info">
+          <div class="week-meta">Week 6 · Mar 6, 2026</div>
+          <h3>Hack</h3>
+          <p>A project that modifies, augments, or redirects the purpose of an existing object or system.</p>
+          <div class="week-tags"><span>Arduino</span></div>
+        </div>
+        <div class="week-arrow">→</div>
+      </div>
+      <div class="week-details">
+        <div class="week-details-inner">
+          <div class="detail-media">
+            <div class="detail-media-main">
+              <div class="media-placeholder">[ media ]</div>
+            </div>
+          </div>
+          <div class="detail-desc">
+            <h4>Hack</h4>
+            <p>This project hacks the most fundamental concept of our environment: silence. In most interactive art, you make noise to get a response. This project, however, hacks that expectation by making silence the active trigger for an alarm. It is an "Inversion Hack"—flipping the rules of cause and effect.</p>
+            <div class="process-label">Process</div>
+            <div class="detail-process-grid">
+              <div class="process-ph"></div>
+              <div class="process-ph"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+      ═══════════════════════════════════════════════════════
+      HOW TO ADD A NEW WEEK — COPY THIS TEMPLATE
+      ═══════════════════════════════════════════════════════
+
+      <div class="week-card fade-in">
+        <div class="week-preview" onclick="this.closest('.week-card').classList.toggle('expanded')">
+          <img src="images/weekX-thumb.jpg" alt="..." class="week-thumb">
+          OR: <div class="week-thumb-placeholder">thumbnail</div>
+
+          <div class="week-info">
+            <div class="week-meta">Week X · Month Day, 2026</div>
+            <h3>Project Title</h3>
+            <p>One-two sentence description.</p>
+            <div class="week-tags"><span>Tool</span></div>
+          </div>
+          <div class="week-arrow">→</div>
+        </div>
+
+        <div class="week-details">
+          <div class="week-details-inner">
+            <div class="detail-media">
+              <div class="detail-media-main">
+
+                IMAGE (clickable to enlarge):
+                <img src="images/weekX-main.jpg" alt="..." onclick="openLightbox(this)">
+
+                YOUTUBE VIDEO:
+                <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+
+                UPLOADED VIDEO (under 25MB):
+                <video controls><source src="media/weekX.mp4" type="video/mp4"></video>
+
+                AUDIO:
+                <audio controls style="width:100%;"><source src="media/weekX.mp3" type="audio/mpeg"></audio>
+
+              </div>
+              <div class="detail-thumbstrip">
+                <img src="images/weekX-t1.jpg" alt="" onclick="openLightbox(this)">
+                <img src="images/weekX-t2.jpg" alt="" onclick="openLightbox(this)">
+              </div>
+            </div>
+
+            <div class="detail-desc">
+              <h4>Project Title</h4>
+              <p>Full description.</p>
+              <div class="process-label">Process</div>
+              <div class="detail-process-grid">
+                <img src="images/weekX-p1.jpg" alt="" onclick="openLightbox(this)">
+                <img src="images/weekX-p2.jpg" alt="" onclick="openLightbox(this)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      IMAGE UPLOADS:
+      1. In your repo: Add file > Create new file > type images/.gitkeep > Commit
+      2. Navigate into images folder > Upload files
+      3. Reference as: images/filename.jpg
+    -->
+
+  </div>
+
+  <footer>&copy; 2026 Nayoung Kim</footer>
+
+  <script>
+    // Fade in
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(function(el) { obs.observe(el); });
+
+    // Lightbox
+    function openLightbox(img) {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
- 
-    // Init water fill
-    $("waterFill").style.height = "100%";
-    $("waterFill").style.background = "linear-gradient(180deg, rgba(56,163,193,0.65) 0%, rgba(30,100,140,0.75) 100%)";
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
   </script>
+
 </body>
 </html>
- 
