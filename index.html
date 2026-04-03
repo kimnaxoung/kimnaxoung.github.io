@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -27,42 +27,67 @@
       width: 100vw; height: 100vh; z-index: 9000;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       background: var(--ink); overflow: hidden;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      cursor: crosshair;
+      transition: filter 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1),
+                  transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: 50% 50%;
     }
-    .intro.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .intro.dissolving {
+      filter: blur(40px) saturate(2);
+      opacity: 0;
+      transform: scale(1.15);
+      pointer-events: none;
+    }
+    .intro.gone { display: none; }
+
     .intro-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; }
     .intro-blob-1 { width: 600px; height: 600px; background: radial-gradient(circle, #7b2ff7, #1b1464); top: -15%; right: -10%; }
     .intro-blob-2 { width: 450px; height: 450px; background: radial-gradient(circle, #c77dff, #2d1b69); bottom: -10%; left: -8%; }
     .intro-blob-3 { width: 350px; height: 350px; background: radial-gradient(circle, #a78bfa, #1a0a5c); top: 40%; left: 20%; }
-    .intro-content { position: relative; z-index: 2; text-align: center; color: #fff; }
+
+    .intro-content {
+      position: relative; z-index: 2; text-align: center; color: #fff;
+      transition: opacity 0.6s ease, transform 0.8s ease, filter 0.8s ease;
+    }
+    .intro.dissolving .intro-content {
+      opacity: 0;
+      transform: scale(0.95) translateY(-20px);
+      filter: blur(12px);
+    }
     .intro-content h1 {
       font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
       letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem;
     }
-    .intro-tagline { font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: 0.15em; margin-bottom: 3rem; }
-    .intro-enter {
-      display: inline-block; padding: 0.8rem 2.5rem;
-      font-family: 'Sora', sans-serif; font-size: 0.8rem; font-weight: 600;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      color: #fff; background: none; border: 1.5px solid rgba(255,255,255,0.3);
-      cursor: pointer; transition: all 0.4s;
+    .intro-tagline { font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: 0.15em; margin-bottom: 2rem; }
+    .intro-hint {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      color: rgba(255,255,255,0.2); letter-spacing: 0.15em; text-transform: uppercase;
+      animation: pulse 2.5s ease-in-out infinite;
     }
-    .intro-enter:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+    @keyframes pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.5; } }
 
-    /* ══ MAIN SITE ══ */
-    .site { opacity: 0; transition: opacity 0.6s ease 0.3s; }
+    /* click flash */
+    .click-flash {
+      position: absolute; border-radius: 50%; pointer-events: none; z-index: 5;
+      background: radial-gradient(circle, rgba(167,139,250,0.4) 0%, rgba(124,92,252,0.15) 30%, transparent 70%);
+      width: 0; height: 0;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  height 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 1.8s ease;
+      opacity: 1;
+    }
+    .click-flash.expand {
+      width: 300vmax; height: 300vmax;
+      opacity: 0;
+    }
+
+    /* ══ SITE ══ */
+    .site { opacity: 0; transition: opacity 0.8s ease 0.6s; }
     .site.visible { opacity: 1; }
 
-    /* NAV — Zekun style: logo left, hamburger or links right */
-    nav {
-      padding: 2rem 3rem 1rem;
-      display: flex; justify-content: space-between; align-items: flex-start;
-    }
-    nav .logo {
-      font-family: 'Playfair Display', serif; font-size: 1.3rem;
-      color: var(--ink); text-decoration: none; font-weight: 800;
-      letter-spacing: 0.02em;
-    }
+    nav { padding: 2rem 3rem 1rem; display: flex; justify-content: space-between; align-items: flex-start; }
+    nav .logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--ink); text-decoration: none; font-weight: 800; }
     nav .nav-menu { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
     nav .nav-menu a {
       text-decoration: none; color: var(--ink); font-size: 0.88rem; font-weight: 400;
@@ -71,43 +96,22 @@
     nav .nav-menu a:hover { opacity: 1; }
     nav .nav-menu a.active { opacity: 1; color: var(--active); text-decoration: underline; text-underline-offset: 3px; }
 
-    /* ══ CATEGORY FILTERS ══ */
-    .filters {
-      display: flex; justify-content: center; gap: 2rem;
-      padding: 2rem 3rem 2.5rem;
-      flex-wrap: wrap;
-    }
+    .filters { display: flex; justify-content: center; gap: 2rem; padding: 2rem 3rem 2.5rem; flex-wrap: wrap; }
     .filters button {
       background: none; border: none; cursor: pointer;
       font-family: 'Sora', sans-serif; font-size: 0.88rem; font-weight: 400;
-      color: var(--muted); transition: all 0.3s;
-      padding: 0; letter-spacing: 0.01em;
+      color: var(--muted); transition: all 0.3s; padding: 0;
     }
     .filters button:hover { color: var(--ink); }
-    .filters button.active {
-      color: var(--ink); font-weight: 600;
-      text-decoration: underline; text-underline-offset: 4px;
-    }
+    .filters button.active { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
 
-    /* ══ PROJECT GRID ══ */
     .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      padding: 0 3rem 5rem;
-      max-width: 1300px;
-      margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      padding: 0 3rem 5rem; max-width: 1300px; margin: 0 auto;
     }
-    .project-tile {
-      position: relative; overflow: hidden;
-      aspect-ratio: 1; background: var(--white); cursor: pointer;
-    }
-    .project-tile img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform 0.6s ease;
-    }
+    .project-tile { position: relative; overflow: hidden; aspect-ratio: 1; background: var(--white); cursor: pointer; }
+    .project-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
     .project-tile:hover img { transform: scale(1.06); }
-    /* overlay on hover */
     .project-tile-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(15,15,26,0.55);
@@ -117,7 +121,6 @@
     .project-tile:hover .project-tile-overlay { opacity: 1; }
     .project-tile-overlay h3 { color: #fff; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
     .project-tile-overlay span { color: rgba(255,255,255,0.55); font-size: 0.68rem; }
-    /* placeholder tiles */
     .tile-ph {
       width: 100%; height: 100%;
       background: linear-gradient(135deg, #f7f5ff 0%, #eee8ff 100%);
@@ -127,30 +130,14 @@
     .project-tile:hover .tile-ph { background: linear-gradient(135deg, #ede8ff 0%, #ddd5ff 100%); }
     .tile-ph h3 { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
     .tile-ph span { font-size: 0.62rem; color: var(--muted); font-family: 'Space Mono', monospace; }
-    /* hidden by filter */
-    .project-tile.hidden-tile {
-      display: none;
-    }
+    .project-tile.hidden-tile { display: none; }
 
-    /* ══ ABOUT SECTION (below grid) ══ */
-    .about-section {
-      max-width: 800px; margin: 0 auto;
-      padding: 4rem 3rem 5rem;
-      border-top: 1px solid var(--border);
-    }
-    .about-section .section-label {
-      font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem;
-    }
+    .about-section { max-width: 800px; margin: 0 auto; padding: 4rem 3rem 5rem; border-top: 1px solid var(--border); }
+    .section-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
     .about-text { font-size: 0.92rem; color: var(--muted); line-height: 1.9; font-weight: 300; }
 
-    /* EXPERIENCE */
     .exp-section { max-width: 800px; margin: 0 auto; padding: 0 3rem 5rem; }
-    .exp-section .section-label {
-      font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem;
-    }
     .exp-item { display: grid; grid-template-columns: 140px 1fr; gap: 2rem; padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
     .exp-item:last-child { border-bottom: none; }
     .exp-date { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--light-muted); padding-top: 0.2rem; }
@@ -158,27 +145,13 @@
     .exp-content .org { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.3rem; }
     .exp-content p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
 
-    /* CONTACT */
-    .contact-section {
-      text-align: center; padding: 4rem 3rem 5rem;
-      max-width: 600px; margin: 0 auto;
-      border-top: 1px solid var(--border);
-    }
-    .contact-section .section-label {
-      font-family: 'Space Mono', monospace; font-size: 0.62rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
-    }
+    .contact-section { text-align: center; padding: 4rem 3rem 5rem; max-width: 600px; margin: 0 auto; border-top: 1px solid var(--border); }
     .contact-section p { font-size: 0.92rem; color: var(--muted); font-weight: 300; margin-bottom: 1.5rem; }
     .contact-links { display: flex; justify-content: center; gap: 2rem; }
-    .contact-links a {
-      text-decoration: none; font-size: 0.82rem; color: var(--ink); opacity: 0.5; transition: opacity 0.3s;
-    }
+    .contact-links a { text-decoration: none; font-size: 0.82rem; color: var(--ink); opacity: 0.5; transition: opacity 0.3s; }
     .contact-links a:hover { opacity: 1; }
 
-    footer {
-      text-align: center; padding: 3rem 2rem;
-      font-size: 0.72rem; color: var(--light-muted); border-top: 1px solid var(--border);
-    }
+    footer { text-align: center; padding: 3rem 2rem; font-size: 0.72rem; color: var(--light-muted); border-top: 1px solid var(--border); }
 
     .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
@@ -193,9 +166,7 @@
       .exp-item { grid-template-columns: 1fr; gap: 0.3rem; }
       .contact-section { padding: 3rem 1.5rem; }
     }
-    @media (max-width: 480px) {
-      nav .nav-menu { display: none; }
-    }
+    @media (max-width: 480px) { nav .nav-menu { display: none; } }
   </style>
 </head>
 <body>
@@ -208,14 +179,12 @@
     <div class="intro-content">
       <h1>Nayoung Kim</h1>
       <div class="intro-tagline">Design the Future</div>
-      <button class="intro-enter" onclick="enterSite()">ENTER</button>
+      <div class="intro-hint">click anywhere</div>
     </div>
   </div>
 
   <!-- ══ SITE ══ -->
   <div class="site" id="site">
-
-    <!-- NAV (Zekun style) -->
     <nav>
       <a href="#" class="logo">Nayoung Kim</a>
       <div class="nav-menu">
@@ -226,8 +195,7 @@
       </div>
     </nav>
 
-    <!-- CATEGORY FILTERS -->
-    <div class="filters" id="filters">
+    <div class="filters">
       <button class="active" onclick="filterProjects('all', this)">All</button>
       <button onclick="filterProjects('research', this)">Research</button>
       <button onclick="filterProjects('xr', this)">XR / Mixed Reality</button>
@@ -236,90 +204,31 @@
       <button onclick="filterProjects('other', this)">Other</button>
     </div>
 
-    <!-- PROJECT GRID -->
-    <div class="projects-grid" id="projectsGrid">
-
-      <!--
-        TO ADD REAL IMAGE:
-        <div class="project-tile" data-cat="ai">
-          <img src="images/project-name.jpg" alt="...">
-          <div class="project-tile-overlay">
-            <h3>Project Name</h3>
-            <span>view</span>
-          </div>
-        </div>
-      -->
-
-      <div class="project-tile" data-cat="ai">
-        <div class="tile-ph"><h3>RAG Chatbot</h3><span>AI + Education</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="xr">
-        <div class="tile-ph"><h3>Valley of Ashes</h3><span>XR + Mixed Reality</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="design">
-        <div class="tile-ph"><h3>Human-AI Collab</h3><span>Speculative Design</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="ai">
-        <div class="tile-ph"><h3>Unity AI Connector</h3><span>Game + AI</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="research">
-        <div class="tile-ph"><h3>IVR System</h3><span>ICTD</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="other">
-        <div class="tile-ph"><h3>Security Dashboard</h3><span>Data + Viz</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="ai">
-        <div class="tile-ph"><h3>Water Receipt</h3><span>AI Art</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="other">
-        <div class="tile-ph"><h3>Wrong Frequency</h3><span>Physical Computing</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="xr">
-        <div class="tile-ph"><h3>When in Rome</h3><span>VR + Heritage</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="research">
-        <div class="tile-ph"><h3>K-pop Dataset</h3><span>Data + Music</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="xr">
-        <div class="tile-ph"><h3>Backslash</h3><span>MR Archiving</span></div>
-      </div>
-
-      <div class="project-tile" data-cat="ai">
-        <div class="tile-ph"><h3>Kirby Bot</h3><span>RAG Pipeline</span></div>
-      </div>
-
+    <div class="projects-grid">
+      <div class="project-tile" data-cat="ai"><div class="tile-ph"><h3>RAG Chatbot</h3><span>AI + Education</span></div></div>
+      <div class="project-tile" data-cat="xr"><div class="tile-ph"><h3>Valley of Ashes</h3><span>XR + Mixed Reality</span></div></div>
+      <div class="project-tile" data-cat="design"><div class="tile-ph"><h3>Human-AI Collab</h3><span>Speculative Design</span></div></div>
+      <div class="project-tile" data-cat="ai"><div class="tile-ph"><h3>Unity AI Connector</h3><span>Game + AI</span></div></div>
+      <div class="project-tile" data-cat="research"><div class="tile-ph"><h3>IVR System</h3><span>ICTD</span></div></div>
+      <div class="project-tile" data-cat="other"><div class="tile-ph"><h3>Security Dashboard</h3><span>Data + Viz</span></div></div>
+      <div class="project-tile" data-cat="ai"><div class="tile-ph"><h3>Water Receipt</h3><span>AI Art</span></div></div>
+      <div class="project-tile" data-cat="other"><div class="tile-ph"><h3>Wrong Frequency</h3><span>Physical Computing</span></div></div>
+      <div class="project-tile" data-cat="xr"><div class="tile-ph"><h3>When in Rome</h3><span>VR + Heritage</span></div></div>
+      <div class="project-tile" data-cat="research"><div class="tile-ph"><h3>K-pop Dataset</h3><span>Data + Music</span></div></div>
+      <div class="project-tile" data-cat="xr"><div class="tile-ph"><h3>Backslash</h3><span>MR Archiving</span></div></div>
+      <div class="project-tile" data-cat="ai"><div class="tile-ph"><h3>Kirby Bot</h3><span>RAG Pipeline</span></div></div>
     </div>
 
-    <!-- ABOUT -->
     <div class="about-section" id="about">
       <div class="fade-in">
         <div class="section-label">About</div>
         <div class="about-grid">
-          <p class="about-text">
-            I'm a researcher and developer working across XR, AI, and human-centered design.
-            Before Cornell, I worked at LG CNS and Samsung SDI in Seoul, and at FIT:MATCH in the US —
-            building experience across product development, data systems, and user-facing technologies.
-          </p>
-          <p class="about-text">
-            My work asks how emerging technologies can be designed more intentionally —
-            not just to function, but to foster agency, transparency, and meaningful interaction.
-            I plan to pursue a PhD to deepen this line of inquiry.
-          </p>
+          <p class="about-text">I'm a researcher and developer working across XR, AI, and human-centered design. Before Cornell, I worked at LG CNS and Samsung SDI in Seoul, and at FIT:MATCH in the US — building experience across product development, data systems, and user-facing technologies.</p>
+          <p class="about-text">My work asks how emerging technologies can be designed more intentionally — not just to function, but to foster agency, transparency, and meaningful interaction. I plan to pursue a PhD to deepen this line of inquiry.</p>
         </div>
       </div>
     </div>
 
-    <!-- EXPERIENCE -->
     <div class="exp-section" id="experience">
       <div class="fade-in">
         <div class="section-label">Experience</div>
@@ -342,7 +251,6 @@
       </div>
     </div>
 
-    <!-- CONTACT -->
     <div class="contact-section" id="contact">
       <div class="fade-in">
         <div class="section-label">Contact</div>
@@ -359,15 +267,9 @@
   </div>
 
   <script>
-    // Enter
-    function enterSite() {
-      document.getElementById('intro').classList.add('hidden');
-      document.getElementById('site').classList.add('visible');
-      document.body.style.overflow = 'auto';
-    }
     document.body.style.overflow = 'hidden';
 
-    // Intro blob animation
+    // Blob animation
     (function() {
       var blobs = document.querySelectorAll('.intro-blob');
       var mx = 0, my = 0, px = [0,0,0], py = [0,0,0];
@@ -392,12 +294,46 @@
       loop();
     })();
 
-    // Filter projects
+    // Click to dissolve
+    var intro = document.getElementById('intro');
+    var clicked = false;
+
+    intro.addEventListener('click', function(e) {
+      if (clicked) return;
+      clicked = true;
+
+      var x = e.clientX;
+      var y = e.clientY;
+
+      // Soft glow flash from click point
+      var flash = document.createElement('div');
+      flash.className = 'click-flash';
+      flash.style.left = x + 'px';
+      flash.style.top = y + 'px';
+      flash.style.transform = 'translate(-50%, -50%)';
+      intro.appendChild(flash);
+      requestAnimationFrame(function() { flash.classList.add('expand'); });
+
+      // Set transform origin to click point for organic dissolve
+      intro.style.transformOrigin = x + 'px ' + y + 'px';
+
+      // Small delay then dissolve
+      setTimeout(function() {
+        intro.classList.add('dissolving');
+      }, 100);
+
+      // After transition, show site
+      setTimeout(function() {
+        intro.classList.add('gone');
+        document.getElementById('site').classList.add('visible');
+        document.body.style.overflow = 'auto';
+      }, 2000);
+    });
+
+    // Filter
     function filterProjects(cat, btn) {
-      // Update active button
       document.querySelectorAll('.filters button').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      // Filter tiles
       document.querySelectorAll('.project-tile').forEach(function(tile) {
         if (cat === 'all' || tile.getAttribute('data-cat') === cat) {
           tile.classList.remove('hidden-tile');
